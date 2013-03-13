@@ -1,0 +1,2 @@
+cglib=org.triple.common.extension.adaptive.GglibAdaptiveManager
+javassist=org.triple.common.extension.adaptive.JavassistAdaptiveManager

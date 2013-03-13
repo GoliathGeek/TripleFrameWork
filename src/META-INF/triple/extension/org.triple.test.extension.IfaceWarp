@@ -1,0 +1,3 @@
+ifacewrapa=org.triple.test.extension.aimpl.IfaceWrapA
+ifacewrapb=org.triple.test.extension.aimpl.IfaceWrapB
+ifacewrapdefault=org.triple.test.extension.aimpl.IfaceWrapDefault
