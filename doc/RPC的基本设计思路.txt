@@ -1,0 +1,54 @@
+虚角色（逻辑意义上的角色）
+Provider 服务的提供者 类似MVC的Model，服务的实现者
+Customer 服务的消费者 类似MVC的Controler，调用Provider提供的服务
+
+实角色
+Node 每个节点都有自己的连接信息,状态
+Invocation 执行任务的方法名，参数
+Result 执行结果，包含了返回值，异常信息
+Invoker 执行者 将invocation 处理成Result， 每种服务都对应有自己Customer端 和 Provider端 的2 个invoker
+Cluster 相同服务接口的一组 invoker
+
+动作
+Router 从Cluster中按一定算法排除掉在网络上不能访问的Invoker
+Registry 向注册中心注册注册节点的动作
+LoadBalance 从一个Cluster中按负载算法获取一个invoker
+Proxy 把一个接口或者接口的实现类生成代理的动作
+
+HelloWorld 输出的过程描述 // 省略protocol 转换，底层的传输
+定义接口 
+public interface SayHello {
+	public String sayHello(String name);
+}
+以及其实现类
+public class SayHelloImpl implements SayHello {
+	@Override
+	public String sayHello(String name) {
+		return "hello " + name;
+	}
+}
+
+1.	注册中心启动
+2.	启动 3个 Provider端， Node信息注册 provider-name 
+3.	启动Customer端， Node信息注册 customer-name
+------------------------- customer 端动作 ---------------------------
+4.	在customer 端 调用 SayHello 接口的sayHello 方法
+5.	通过proxy生成SayHello接口的代理类 SayHello$ProxyCustomer 
+6.	SayHello$ProxyCustomer 解析 SayHello方法（方法名，参数，返回值类型，异常），生成一个Invocation
+7.	从注册中心上获取注册名为provider-name的已注册的节点信息cluster 。
+8.	通过router动作对这个cluster过滤（比如只能访问2个节点的规则）
+9.	通过loadbalance动作从cluster中获取一个Invoker节点
+10.	Invoker 【customer端】处理 Invocation (Result result = invoker.invoke(Invocation invocation)
+	a)	invoke方法中，将invocation 序列化后发给provider
+------------------------- provide端动作 -----------------------------
+11.	找到SayHello接口的实现类SayHelloImpl，通过proxy生成对应的代理类
+12.	接收invocation反序列化，生成一个Invoker
+13.	Invoker【provider端】处理invocation (Result result = invoker.invoke(Invocation invocation)
+	a)	解析invocation
+	b)	SayHelloImpl实际执行
+	c)	包装返回值和异常 ，生成result
+	d)	序列化result，返回customer端
+------------------------- customer 端动作 ---------------------------
+14.	在步骤10.a后，Invoker接收到provider传输的result并反序列化，处理异常和返回值
+15.	返回给代理类SayHello$ProxyCustomer
+16.	返回结果到sayHello接口
