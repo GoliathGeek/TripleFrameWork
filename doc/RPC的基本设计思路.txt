@@ -33,8 +33,8 @@ public class SayHelloImpl implements SayHello {
 3.	启动Customer端， Node信息注册 customer-name
 ------------------------- customer 端动作 ---------------------------
 4.	在customer 端 调用 SayHello 接口的sayHello 方法
-5.	通过proxy生成SayHello接口的代理类 SayHello$ProxyCustomer 
-6.	SayHello$ProxyCustomer 解析 SayHello方法（方法名，参数，返回值类型，异常），生成一个Invocation
+5.	通过proxy生成SayHello接口的代理类 SayHello$ProxyCustomer ，通过代理类执行 SayHello 方法
+6.	SayHello$ProxyCustomer 解析 SayHello方法（方法名，参数，返回值类型，异常），生成一个Invocation实例
 7.	从注册中心上获取注册名为provider-name的已注册的节点信息cluster 。
 8.	通过router动作对这个cluster过滤（比如只能访问2个节点的规则）
 9.	通过loadbalance动作从cluster中获取一个Invoker节点
@@ -42,13 +42,13 @@ public class SayHelloImpl implements SayHello {
 	a)	invoke方法中，将invocation 序列化后发给provider
 ------------------------- provide端动作 -----------------------------
 11.	找到SayHello接口的实现类SayHelloImpl，通过proxy生成对应的代理类
-12.	接收invocation反序列化，生成一个Invoker
+12.	通过代理类，接收invocation反序列化，生成一个Invoker
 13.	Invoker【provider端】处理invocation (Result result = invoker.invoke(Invocation invocation)
 	a)	解析invocation
 	b)	SayHelloImpl实际执行
 	c)	包装返回值和异常 ，生成result
-	d)	序列化result，返回customer端
+	d)	将Result序列化后返回customer端
 ------------------------- customer 端动作 ---------------------------
 14.	在步骤10.a后，Invoker接收到provider传输的result并反序列化，处理异常和返回值
-15.	返回给代理类SayHello$ProxyCustomer
-16.	返回结果到sayHello接口
+15.	返回值或异常到代理类SayHello$ProxyCustomer
+16.	返回值或异常到sayHello
