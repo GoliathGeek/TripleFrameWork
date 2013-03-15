@@ -1,26 +1,26 @@
-Ğé½ÇÉ«£¨Âß¼­ÒâÒåÉÏµÄ½ÇÉ«£©
-Provider ·şÎñµÄÌá¹©Õß ÀàËÆMVCµÄModel£¬·şÎñµÄÊµÏÖÕß
-Customer ·şÎñµÄÏû·ÑÕß ÀàËÆMVCµÄControler£¬µ÷ÓÃProviderÌá¹©µÄ·şÎñ
+ï»¿è™šè§’è‰²ï¼ˆé€»è¾‘æ„ä¹‰ä¸Šçš„è§’è‰²ï¼‰
+Provider æœåŠ¡çš„æä¾›è€… ç±»ä¼¼MVCçš„Modelï¼ŒæœåŠ¡çš„å®ç°è€…
+Customer æœåŠ¡çš„æ¶ˆè´¹è€… ç±»ä¼¼MVCçš„Controlerï¼Œè°ƒç”¨Provideræä¾›çš„æœåŠ¡
 
-Êµ½ÇÉ«
-Node Ã¿¸ö½Úµã¶¼ÓĞ×Ô¼ºµÄÁ¬½ÓĞÅÏ¢,×´Ì¬
-Invocation Ö´ĞĞÈÎÎñµÄ·½·¨Ãû£¬²ÎÊı
-Result Ö´ĞĞ½á¹û£¬°üº¬ÁË·µ»ØÖµ£¬Òì³£ĞÅÏ¢
-Invoker Ö´ĞĞÕß ½«invocation ´¦Àí³ÉResult£¬ Ã¿ÖÖ·şÎñ¶¼¶ÔÓ¦ÓĞ×Ô¼ºCustomer¶Ë ºÍ Provider¶Ë µÄ2 ¸öinvoker
-Cluster ÏàÍ¬·şÎñ½Ó¿ÚµÄÒ»×é invoker
+å®è§’è‰²
+Node æ¯ä¸ªèŠ‚ç‚¹éƒ½æœ‰è‡ªå·±çš„è¿æ¥ä¿¡æ¯,çŠ¶æ€
+Invocation æ‰§è¡Œä»»åŠ¡çš„æ–¹æ³•åï¼Œå‚æ•°
+Result æ‰§è¡Œç»“æœï¼ŒåŒ…å«äº†è¿”å›å€¼ï¼Œå¼‚å¸¸ä¿¡æ¯
+Invoker æ‰§è¡Œè€… å°†invocation å¤„ç†æˆResultï¼Œ æ¯ç§æœåŠ¡éƒ½å¯¹åº”æœ‰è‡ªå·±Customerç«¯ å’Œ Providerç«¯ çš„2 ä¸ªinvoker
+Cluster ç›¸åŒæœåŠ¡æ¥å£çš„ä¸€ç»„ invoker
 
-¶¯×÷
-Router ´ÓClusterÖĞ°´Ò»¶¨Ëã·¨ÅÅ³ıµôÔÚÍøÂçÉÏ²»ÄÜ·ÃÎÊµÄInvoker
-Registry Ïò×¢²áÖĞĞÄ×¢²á×¢²á½ÚµãµÄ¶¯×÷
-LoadBalance ´ÓÒ»¸öClusterÖĞ°´¸ºÔØËã·¨»ñÈ¡Ò»¸öinvoker
-Proxy °ÑÒ»¸ö½Ó¿Ú»òÕß½Ó¿ÚµÄÊµÏÖÀàÉú³É´úÀíµÄ¶¯×÷
+åŠ¨ä½œ
+Router ä»Clusterä¸­æŒ‰ä¸€å®šç®—æ³•æ’é™¤æ‰åœ¨ç½‘ç»œä¸Šä¸èƒ½è®¿é—®çš„Invoker
+Registry å‘æ³¨å†Œä¸­å¿ƒæ³¨å†Œæ³¨å†ŒèŠ‚ç‚¹çš„åŠ¨ä½œ
+LoadBalance ä»ä¸€ä¸ªClusterä¸­æŒ‰è´Ÿè½½ç®—æ³•è·å–ä¸€ä¸ªinvoker
+Proxy æŠŠä¸€ä¸ªæ¥å£æˆ–è€…æ¥å£çš„å®ç°ç±»ç”Ÿæˆä»£ç†çš„åŠ¨ä½œ
 
-HelloWorld Êä³öµÄ¹ı³ÌÃèÊö // Ê¡ÂÔprotocol ×ª»»£¬µ×²ãµÄ´«Êä
-¶¨Òå½Ó¿Ú 
+HelloWorld è¾“å‡ºçš„è¿‡ç¨‹æè¿° // çœç•¥protocol è½¬æ¢ï¼Œåº•å±‚çš„ä¼ è¾“
+å®šä¹‰æ¥å£ 
 public interface SayHello {
 	public String sayHello(String name);
 }
-ÒÔ¼°ÆäÊµÏÖÀà
+ä»¥åŠå…¶å®ç°ç±»
 public class SayHelloImpl implements SayHello {
 	@Override
 	public String sayHello(String name) {
@@ -28,27 +28,27 @@ public class SayHelloImpl implements SayHello {
 	}
 }
 
-1.	×¢²áÖĞĞÄÆô¶¯
-2.	Æô¶¯ 3¸ö Provider¶Ë£¬ NodeĞÅÏ¢×¢²á provider-name 
-3.	Æô¶¯Customer¶Ë£¬ NodeĞÅÏ¢×¢²á customer-name
-------------------------- customer ¶Ë¶¯×÷ ---------------------------
-4.	ÔÚcustomer ¶Ë µ÷ÓÃ SayHello ½Ó¿ÚµÄsayHello ·½·¨
-5.	Í¨¹ıproxyÉú³ÉSayHello½Ó¿ÚµÄ´úÀíÀà SayHello$ProxyCustomer 
-6.	SayHello$ProxyCustomer ½âÎö SayHello·½·¨£¨·½·¨Ãû£¬²ÎÊı£¬·µ»ØÖµÀàĞÍ£¬Òì³££©£¬Éú³ÉÒ»¸öInvocation
-7.	´Ó×¢²áÖĞĞÄÉÏ»ñÈ¡×¢²áÃûÎªprovider-nameµÄÒÑ×¢²áµÄ½ÚµãĞÅÏ¢cluster ¡£
-8.	Í¨¹ırouter¶¯×÷¶ÔÕâ¸öcluster¹ıÂË£¨±ÈÈçÖ»ÄÜ·ÃÎÊ2¸ö½ÚµãµÄ¹æÔò£©
-9.	Í¨¹ıloadbalance¶¯×÷´ÓclusterÖĞ»ñÈ¡Ò»¸öInvoker½Úµã
-10.	Invoker ¡¾customer¶Ë¡¿´¦Àí Invocation (Result result = invoker.invoke(Invocation invocation)
-	a)	invoke·½·¨ÖĞ£¬½«invocation ĞòÁĞ»¯ºó·¢¸øprovider
-------------------------- provide¶Ë¶¯×÷ -----------------------------
-11.	ÕÒµ½SayHello½Ó¿ÚµÄÊµÏÖÀàSayHelloImpl£¬Í¨¹ıproxyÉú³É¶ÔÓ¦µÄ´úÀíÀà
-12.	½ÓÊÕinvocation·´ĞòÁĞ»¯£¬Éú³ÉÒ»¸öInvoker
-13.	Invoker¡¾provider¶Ë¡¿´¦Àíinvocation (Result result = invoker.invoke(Invocation invocation)
-	a)	½âÎöinvocation
-	b)	SayHelloImplÊµ¼ÊÖ´ĞĞ
-	c)	°ü×°·µ»ØÖµºÍÒì³£ £¬Éú³Éresult
-	d)	ĞòÁĞ»¯result£¬·µ»Øcustomer¶Ë
-------------------------- customer ¶Ë¶¯×÷ ---------------------------
-14.	ÔÚ²½Öè10.aºó£¬Invoker½ÓÊÕµ½provider´«ÊäµÄresult²¢·´ĞòÁĞ»¯£¬´¦ÀíÒì³£ºÍ·µ»ØÖµ
-15.	·µ»Ø¸ø´úÀíÀàSayHello$ProxyCustomer
-16.	·µ»Ø½á¹ûµ½sayHello½Ó¿Ú
+1.	æ³¨å†Œä¸­å¿ƒå¯åŠ¨
+2.	å¯åŠ¨ 3ä¸ª Providerç«¯ï¼Œ Nodeä¿¡æ¯æ³¨å†Œ provider-name 
+3.	å¯åŠ¨Customerç«¯ï¼Œ Nodeä¿¡æ¯æ³¨å†Œ customer-name
+------------------------- customer ç«¯åŠ¨ä½œ ---------------------------
+4.	åœ¨customer ç«¯ è°ƒç”¨ SayHello æ¥å£çš„sayHello æ–¹æ³•
+5.	é€šè¿‡proxyç”ŸæˆSayHelloæ¥å£çš„ä»£ç†ç±» SayHello$ProxyCustomer 
+6.	SayHello$ProxyCustomer è§£æ SayHelloæ–¹æ³•ï¼ˆæ–¹æ³•åï¼Œå‚æ•°ï¼Œè¿”å›å€¼ç±»å‹ï¼Œå¼‚å¸¸ï¼‰ï¼Œç”Ÿæˆä¸€ä¸ªInvocation
+7.	ä»æ³¨å†Œä¸­å¿ƒä¸Šè·å–æ³¨å†Œåä¸ºprovider-nameçš„å·²æ³¨å†Œçš„èŠ‚ç‚¹ä¿¡æ¯cluster ã€‚
+8.	é€šè¿‡routeråŠ¨ä½œå¯¹è¿™ä¸ªclusterè¿‡æ»¤ï¼ˆæ¯”å¦‚åªèƒ½è®¿é—®2ä¸ªèŠ‚ç‚¹çš„è§„åˆ™ï¼‰
+9.	é€šè¿‡loadbalanceåŠ¨ä½œä»clusterä¸­è·å–ä¸€ä¸ªInvokerèŠ‚ç‚¹
+10.	Invoker ã€customerç«¯ã€‘å¤„ç† Invocation (Result result = invoker.invoke(Invocation invocation)
+	a)	invokeæ–¹æ³•ä¸­ï¼Œå°†invocation åºåˆ—åŒ–åå‘ç»™provider
+------------------------- provideç«¯åŠ¨ä½œ -----------------------------
+11.	æ‰¾åˆ°SayHelloæ¥å£çš„å®ç°ç±»SayHelloImplï¼Œé€šè¿‡proxyç”Ÿæˆå¯¹åº”çš„ä»£ç†ç±»
+12.	æ¥æ”¶invocationååºåˆ—åŒ–ï¼Œç”Ÿæˆä¸€ä¸ªInvoker
+13.	Invokerã€providerç«¯ã€‘å¤„ç†invocation (Result result = invoker.invoke(Invocation invocation)
+	a)	è§£æinvocation
+	b)	SayHelloImplå®é™…æ‰§è¡Œ
+	c)	åŒ…è£…è¿”å›å€¼å’Œå¼‚å¸¸ ï¼Œç”Ÿæˆresult
+	d)	åºåˆ—åŒ–resultï¼Œè¿”å›customerç«¯
+------------------------- customer ç«¯åŠ¨ä½œ ---------------------------
+14.	åœ¨æ­¥éª¤10.aåï¼ŒInvokeræ¥æ”¶åˆ°providerä¼ è¾“çš„resultå¹¶ååºåˆ—åŒ–ï¼Œå¤„ç†å¼‚å¸¸å’Œè¿”å›å€¼
+15.	è¿”å›ç»™ä»£ç†ç±»SayHello$ProxyCustomer
+16.	è¿”å›ç»“æœåˆ°sayHelloæ¥å£
