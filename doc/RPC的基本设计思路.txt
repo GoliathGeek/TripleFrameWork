@@ -1,6 +1,7 @@
 ﻿虚角色（逻辑意义上的角色）
 Provider 服务的提供者 类似MVC的Model，服务的实现者
 Customer 服务的消费者 类似MVC的Controler，调用Provider提供的服务
+注册中心 比如zookeeper集群，在具有强一致性的前提下，负责节点，服务的信息，消息，状态等数据存放
 
 实角色
 Node 每个节点都有自己的连接信息,状态
@@ -35,20 +36,20 @@ public class SayHelloImpl implements SayHello {
 4.	在customer 端 调用 SayHello 接口的sayHello 方法
 5.	通过proxy生成SayHello接口的代理类 SayHello$ProxyCustomer ，通过代理类执行 SayHello 方法
 6.	SayHello$ProxyCustomer 解析 SayHello方法（方法名，参数，返回值类型，异常），生成一个Invocation实例
-7.	从注册中心上获取注册名为provider-name的已注册的节点信息cluster 。
-8.	通过router动作对这个cluster过滤（比如只能访问2个节点的规则）
-9.	通过loadbalance动作从cluster中获取一个Invoker节点
+7.	从注册中心上获取一组注册名为provider-name的已注册的节点信息的集合 ---- Cluster 。
+8.	通过router动作对这个Cluster过滤（比如对网段进行限制，部分IP禁止访问）
+9.	通过loadbalance动作从Cluster中获取一个Invoker节点
 10.	Invoker 【customer端】处理 Invocation (Result result = invoker.invoke(Invocation invocation)
 	a)	invoke方法中，将invocation 序列化后发给provider
 ------------------------- provide端动作 -----------------------------
-11.	找到SayHello接口的实现类SayHelloImpl，通过proxy生成对应的代理类
-12.	通过代理类，接收invocation反序列化，生成一个Invoker
-13.	Invoker【provider端】处理invocation (Result result = invoker.invoke(Invocation invocation)
-	a)	解析invocation
-	b)	SayHelloImpl实际执行
-	c)	包装返回值和异常 ，生成result
-	d)	将Result序列化后返回customer端
+		1.	找到SayHello接口的实现类SayHelloImpl，通过proxy生成对应的代理类
+		2.	通过代理类，接收invocation反序列化，生成一个Invoker
+		3.	Invoker【provider端】处理invocation (Result result = invoker.invoke(Invocation invocation)
+			a)	解析invocation
+			b)	SayHelloImpl实际执行
+			c)	包装返回值和异常 ，生成result
+			d)	将Result序列化后返回customer端
 ------------------------- customer 端动作 ---------------------------
-14.	在步骤10.a后，Invoker接收到provider传输的result并反序列化，处理异常和返回值
-15.	返回值或异常到代理类SayHello$ProxyCustomer
-16.	返回值或异常到sayHello
+	b)	在步骤10.a后，Invoker接收到provider传输的result并反序列化，处理异常和返回值
+11.	返回值或异常到代理类SayHello$ProxyCustomer
+12.	返回值或异常到sayHello
