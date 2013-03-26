@@ -21,12 +21,12 @@ Proxy 把一个接口或者接口的实现类生成代理的动作
 HelloWorld 输出的过程描述 // 省略protocol 转换，底层的传输
 定义接口 
 public interface SayHello {
-	public String sayHello(String name);
+	public String sayHello(String name) throws Exception;
 }
 以及其实现类
 public class SayHelloImpl implements SayHello {
 	@Override
-	public String sayHello(String name) {
+	public String sayHello(String name)  throws Exception {
 		return "hello " + name;
 	}
 }
@@ -44,13 +44,13 @@ public class SayHelloImpl implements SayHello {
 10.	Invoker 【customer端】处理 Invocation (Result result = invoker.invoke(Invocation invocation)
 	a)	invoke方法中，将invocation 序列化后发给provider
 ------------------------- provide端动作 -----------------------------
-		1.	找到SayHello接口的实现类SayHelloImpl，通过proxy生成对应的代理类
+		1.	找到SayHello接口的实现类SayHelloImpl，通过proxy生成对应的代理类SayHelloImpl$ProxyProvider
 		2.	通过代理类，接收invocation反序列化，生成一个Invoker
 		3.	Invoker【provider端】处理invocation (Result result = invoker.invoke(Invocation invocation)
-			a)	解析invocation
-			b)	SayHelloImpl实际执行
-			c)	包装返回值和异常 ，生成result
-			d)	将Result序列化后返回customer端
+			a)	解析invocation，将解析结果交给代理类SayHelloImpl$Proxy执行
+			b)	在代理类SayHelloImpl$ProxyProvider 中 SayHelloImpl实际执行sayHello方法，返回值或异常到代理类SayHelloImpl$ProxyProvider
+			c)	代理类SayHelloImpl$ProxyProvider包装返回值和异常 ，生成Result
+			d)	Invoker【provider端】将Result序列化后返回customer端
 ------------------------- customer 端动作 ---------------------------
 	b)	在步骤10.a后，Invoker接收到provider传输的result并反序列化，处理异常和返回值
 11.	返回值或异常到代理类SayHello$ProxyCustomer

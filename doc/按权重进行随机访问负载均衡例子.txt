@@ -1,0 +1,85 @@
+按权重进行随机访问负载均衡例子
+
+以下都是伪代码
+
+【机器权重】
+
+假设一共有5个provider应用台provider机器，在每台机器都处在存活的情况时
+Provider 端注册在注册中心的信息为
+----------------------------------------------------------------------------------------------------
+service_name						host_name					weight							ip address:port
+----------------------------------------------------------------------------------------------------
+service_example					provider_a					200								192.168.1.100:30301
+service_example					provider_b					200								192.168.1.100:30302
+service_example					provider_c					200								192.168.1.101:30301
+service_example					provider_d					300								192.168.1.102:30301
+service_example					provider_e					100								192.168.1.103:30301
+----------------------------------------------------------------------------------------------------
+
+Consumer端的balance 动作
+1.	从注册中心获取一个 service_name为service_example，包含了5节点信息的List
+2.	遍历list，累加每个节点的weight ，得出total weight = 1000
+3.	生成一个[0,1000)的随机数，根据这个随机数的值选定host_name	
+	在一个 [0 ,1000)的区间内
+		[0,200) 对应 provider_a
+		[200,400) 对应 provider_b
+		[400,600) 对应 provider_c
+		[600,900) 对应 provider_d
+		[900,1000) 对应 provider_e
+4.	在随机数为500的情况下， provider_c被选中，Consumer端按192.168.1.101:30301地址建立和Provider端的连接
+
+【方法权重】
+和机器权重类似,只是weight属性不作用于host，而是作用于method，方法权重的优先级应高于机器权重
+
+Provider 端注册在注册中心的信息为
+--------------------------------------------------------------------------------------------------------------------
+service_name						host_name					method					weight					ip address:port
+--------------------------------------------------------------------------------------------------------------------
+service_example					provider_a					testMethod				300						192.168.1.100:30301
+service_example					provider_b					testMethod				200						192.168.1.100:30302
+service_example					provider_c					testMethod				200						192.168.1.101:30301
+service_example					provider_d					testMethod				200						192.168.1.102:30301
+service_example					provider_e					testMethod				100						192.168.1.103:30301
+--------------------------------------------------------------------------------------------------------------------
+
+
+【LoadBalance的隐藏】
+对于一个Consumer的Rpc调用，核心的逻辑是
+Result result = invoker.invoke(Invocation invocation); 
+通过对invoker进行一次直接代理，隐藏LoadBanlance动作
+
+wow玩家练级和代练工作室的例子
+Iplayer接口
+increaseLevel() 方法
+
+------------Player 独自表演打怪 升级
+ Iplayer duzi = new Player("独自表演");
+ duzi.increaseLevel();
+ 
+------------代练工作室帮独自练级
+public ProxyPlayer implements Iplayer{
+	Iplayer proxy;
+	ProxyPlayer(String proxyName){
+		proxy = new Player("独自表演");
+	}
+  	 
+	public void increaseLevel(){
+		// 收代练钱
+		proxy.increaseLevel();
+	}
+}
+ 
+Iplayer proxyPlayer = new ProxyPlayer("独自表演");
+proxyPlayer.increaseLevel();
+ 
+-------------直接Invoker的做法 
+Invoker invoker = new InvokerImpl();
+Result result = invoker.invoke(Invocation invocation); 
+ 
+-------------Cluster Invoker Balance隐藏的实现
+ClusterInvoker 实现Invoker 接口
+Invoker invoker = new InvokerImpl();
+Invoker invokerProxy = new ClusterInvoker(invoker);
+Result result = invokerProxy.invoke(Invocation invocation); 
+
+ClusterInvoker 中先进行Balance动作获取了连接信息,再用实际的invoker进行invoke动作
