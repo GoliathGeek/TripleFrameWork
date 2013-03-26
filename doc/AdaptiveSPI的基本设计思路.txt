@@ -1,0 +1,19 @@
+【SPI是什么】
+	Service Provider Interface
+	
+	1.	服务(service)包括接口或者抽象类
+	2.	服务提供方针对这个接口或者抽象类的实现
+	3.	META- INF/*****目录下建对应的   Map<iface,Impl>文件
+			文件的命名为该服务接口的类全名。
+			服务接口com.test.Service，实现类为 com.test.AAAAServiceImpl
+			那么在META-INF/*****中放置文件com.test.Service，文件行内容为该实现类的设定名=实现类全名，例如 AAAA = com.test.AAAAServiceImpl
+			若有多个实现类，则写多行的映射关系
+			#表示为注释行
+	
+【Adaptive SPI是什么】
+
+【为什么要采用Adaptive SPI】
+
+【Adaptive SPI的主要功能】
+
+【Adaptive SPI的实现方式】
