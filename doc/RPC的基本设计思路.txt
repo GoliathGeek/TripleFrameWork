@@ -55,3 +55,21 @@ public class SayHelloImpl implements SayHello {
 	b)	在步骤10.a后，Invoker接收到provider传输的result并反序列化，处理异常和返回值
 11.	返回值或异常到代理类SayHello$ProxyCustomer
 12.	返回值或异常到sayHello
+
+===================================================================
+Protocol & Exporter
+
+protocol 协议接口，包含了以下的概念
+1.	用什么方式进行RPC调用，比如 RMI方式，muticast方式
+2.	用什么端口监听 开启一个端口，监听请求，解析请求并找到对应的Exporter，从而找到Invoker，进行服务调用
+3.	发布服务 将可以执行的Invoker按协议发布 ---  将 Invoker export 为 Exporter
+4.	停止所有服务
+
+Exporter 
+对于一个服务，对应一个执行的Invoker，一个执行的Invoker，可以被多种协议发布
+所以一个 Invoker 可以对应多个Exporter
+通过protocol按请求的内容查到对应的Exporter
+Exporter可以被销毁
+
+
+

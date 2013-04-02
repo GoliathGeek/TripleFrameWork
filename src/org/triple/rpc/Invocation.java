@@ -2,6 +2,11 @@ package org.triple.rpc;
 
 import java.util.Map;
 
+/**
+ * 执行参数
+ * @author Cxl
+ * @createTime 2013-4-2 
+ */
 public interface Invocation {
 
 	/**

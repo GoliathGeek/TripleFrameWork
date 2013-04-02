@@ -1,7 +1,5 @@
 package org.triple.rpc.exception;
 
-import org.triple.rpc.Invocation;
-
 public final class RpcException extends RuntimeException {
 
 	private static final long serialVersionUID = 7815426752583648734L;

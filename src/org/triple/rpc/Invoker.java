@@ -6,15 +6,15 @@ import org.triple.rpc.exception.RpcException;
 public interface Invoker<T> extends Node {
 
 	/**
-	 * get service interface.
-	 * 
-	 * @return service interface.
+	 * get Service Interface class
+	 * @return
+	 * @author Cxl
+	 * @createTime 2013-4-1
 	 */
 	Class<T> getInterface();
 
 	/**
-	 * invoke.
-	 * 
+	 * invoke invocation 
 	 * @param invocation
 	 * @return result
 	 * @throws RpcException
