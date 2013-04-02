@@ -1,10 +1,8 @@
 package org.triple.common;
 
-import java.net.URL;
-
 public interface Node {
 
-	URL getUrl();
+	TpURL getTpURL();
 
 	boolean isAvailable();
 

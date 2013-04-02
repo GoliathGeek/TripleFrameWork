@@ -1,8 +1,8 @@
 package org.triple.rpc.cluster;
 
-import java.net.URL;
 import java.util.List;
 
+import org.triple.common.TpURL;
 import org.triple.rpc.Invocation;
 import org.triple.rpc.Invoker;
 import org.triple.rpc.exception.RpcException;
@@ -16,6 +16,6 @@ import org.triple.rpc.exception.RpcException;
  */
 public interface LoadBalance {
 
-	<T> Invoker<T> select(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException;
+	<T> Invoker<T> select(List<Invoker<T>> invokers, TpURL tpURL, Invocation invocation) throws RpcException;
 
 }

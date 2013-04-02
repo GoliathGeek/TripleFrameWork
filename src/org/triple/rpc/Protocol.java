@@ -1,7 +1,6 @@
 package org.triple.rpc;
 
-import java.net.URL;
-
+import org.triple.common.TpURL;
 import org.triple.common.extension.Adaptive;
 import org.triple.rpc.exception.RpcException;
 
@@ -35,14 +34,14 @@ public interface Protocol {
 	/**
 	 * 通过Url连接，获取到一个 iface 对应invoker【这个是P端的invoker】
 	 * @param type
-	 * @param url
+	 * @param tpURL
 	 * @return
 	 * @throws RpcException
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
 	@Adaptive
-	<T> Invoker<T> refer(Class<T> type, URL url) throws RpcException;
+	<T> Invoker<T> refer(Class<T> type, TpURL tpURL) throws RpcException;
 
 	/**
 	 * 将一个protocol 摧毁，关闭服务，关闭端口
