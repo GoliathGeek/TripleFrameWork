@@ -6,19 +6,19 @@ package org.triple.rpc;
  * @createTime 2013-4-2 
  */
 public interface Exporter<T> {
-    
-    /**
-     * get invoker.
-     * 
-     * @return invoker
-     */
-    Invoker<T> getInvoker();
-    
-    /**
-     * <code>
-     *     getInvoker().destroy();
-     * </code>
-     */
-    void unexport();
+
+	/**
+	 * get invoker.
+	 * 
+	 * @return invoker
+	 */
+	Invoker<T> getInvoker();
+
+	/**
+	 * <code>
+	 *     getInvoker().destroy();
+	 * </code>
+	 */
+	void unexport();
 
 }

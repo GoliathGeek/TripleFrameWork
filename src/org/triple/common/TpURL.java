@@ -16,10 +16,10 @@ public class TpURL implements Serializable {
 		params = new HashMap<String, String>();
 	}
 
-	public String toString(){
+	public String toString() {
 		return path;
 	}
-	
+
 	public String getPath() {
 		return path;
 	}

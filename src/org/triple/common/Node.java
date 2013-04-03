@@ -2,10 +2,10 @@ package org.triple.common;
 
 public interface Node {
 
-	TpURL getTpURL();
+	public TpURL getTpURL();
 
-	boolean isAvailable();
+	public boolean isAvailable();
 
-	void destroy();
+	public void destroy();
 
 }

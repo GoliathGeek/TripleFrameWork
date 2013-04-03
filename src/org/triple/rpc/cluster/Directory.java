@@ -14,23 +14,23 @@ import org.triple.rpc.exception.RpcException;
  * @createTime 2013-4-2 
  */
 public interface Directory<T> extends Node {
-    
-    /**
-     * get service Iface.
-     * @return
-     * @author Cxl
-     * @createTime 2013-4-2
-     */
-    Class<T> getInterface();
 
-    /**
-     *  list invokers
-     * @param invocation
-     * @return
-     * @throws RpcException
-     * @author Cxl
-     * @createTime 2013-4-2
-     */
-    List<Invoker<T>> list(Invocation invocation) throws RpcException;
-    
+	/**
+	 * get service Iface.
+	 * @return
+	 * @author Cxl
+	 * @createTime 2013-4-2
+	 */
+	Class<T> getInterface();
+
+	/**
+	 *  list invokers
+	 * @param invocation
+	 * @return
+	 * @throws RpcException
+	 * @author Cxl
+	 * @createTime 2013-4-2
+	 */
+	List<Invoker<T>> list(Invocation invocation) throws RpcException;
+
 }

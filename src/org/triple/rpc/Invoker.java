@@ -11,7 +11,7 @@ public interface Invoker<T> extends Node {
 	 * @author Cxl
 	 * @createTime 2013-4-1
 	 */
-	Class<T> getInterface();
+	public Class<T> getInterface();
 
 	/**
 	 * invoke invocation 
@@ -19,6 +19,6 @@ public interface Invoker<T> extends Node {
 	 * @return result
 	 * @throws RpcException
 	 */
-	Result invoke(Invocation invocation) throws RpcException;
+	public Result invoke(Invocation invocation) throws RpcException;
 
 }

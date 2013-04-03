@@ -1,7 +1,5 @@
 package org.triple.rpc;
 
-import java.util.Map;
-
 /**
  * 执行参数
  * @author Cxl

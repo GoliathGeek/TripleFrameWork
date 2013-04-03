@@ -12,16 +12,15 @@ import org.triple.rpc.exception.RpcException;
  */
 public interface Cluster {
 
-    
-    /**
-     * TODO
-     * @param directory
-     * @return
-     * @throws RpcException
-     * @author Cxl
-     * @createTime 2013-4-2
-     */
-    @Adaptive
-    <T> Invoker<T> join(Directory<T> directory) throws RpcException;
+	/**
+	 * TODO
+	 * @param directory
+	 * @return
+	 * @throws RpcException
+	 * @author Cxl
+	 * @createTime 2013-4-2
+	 */
+	@Adaptive
+	<T> Invoker<T> join(Directory<T> directory) throws RpcException;
 
 }

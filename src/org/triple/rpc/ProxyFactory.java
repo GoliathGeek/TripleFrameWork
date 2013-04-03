@@ -1,7 +1,6 @@
 package org.triple.rpc;
 
-import java.net.URL;
-
+import org.triple.common.TpURL;
 import org.triple.common.extension.SPI;
 import org.triple.rpc.exception.RpcException;
 
@@ -33,6 +32,6 @@ public interface ProxyFactory {
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	<T> Invoker<T> createProxyInvoker(T proxy, Class<T> type, URL url) throws RpcException;
+	<T> Invoker<T> createProxyInvoker(T proxy, Class<T> type, TpURL tpURL) throws RpcException;
 
 }

@@ -10,8 +10,7 @@ public class TripleConfig {
 	/**
 	 * 禁止在包外创建此对象
 	 */
-	TripleConfig(){}
-	
-	
-	
+	TripleConfig() {
+	}
+
 }
