@@ -10,11 +10,9 @@ public class TpURL implements Serializable {
 	private String portocol;
 	private String host;
 	private String port;
-	private Map<String, String> params;
+	private Map<String, String> params = new HashMap<String, String>();
 
-	public TpURL() {
-		params = new HashMap<String, String>();
-	}
+	public TpURL() {}
 
 	public String toString() {
 		return path;

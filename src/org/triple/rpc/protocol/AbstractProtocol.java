@@ -2,6 +2,7 @@ package org.triple.rpc.protocol;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -9,8 +10,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.triple.common.Constants;
 import org.triple.common.TpURL;
 import org.triple.common.util.ConcurrentHashSet;
+import org.triple.common.util.StringUtils;
 import org.triple.rpc.Exporter;
 import org.triple.rpc.Invocation;
 import org.triple.rpc.Invoker;
@@ -23,7 +26,7 @@ import org.triple.rpc.exception.RpcException;
 public abstract class AbstractProtocol implements Protocol {
 	private ProxyFactory proxyFactory;
 
-	private final List<Class<?>> rpcExceptions = new CopyOnWriteArrayList<Class<?>>();;
+	private final List<Class<?>> rpcExceptions = new CopyOnWriteArrayList<Class<?>>();
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -60,9 +63,15 @@ public abstract class AbstractProtocol implements Protocol {
 		}
 	}
 
-	private String getServiceKey(TpURL tpURL) {
-		// TODO Auto-generated method stub
-		return null;
+	private String getServiceKey(TpURL tpURL) throws RuntimeException {
+		String protocol = tpURL.getPortocol();
+		Map<String, String> params = tpURL.getParams();
+		String iface = params.get(Constants.TPURL_IFACE);
+		if (StringUtils.isBlank(iface)) {
+			throw new RuntimeException(Constants.TPURL_IFACE + " can not be null , please check tpurl : " + tpURL);
+		}
+		String paramType = params.get(Constants.TPURL_PARAMTYPE);
+		return protocol + Constants.UNION_CHAR + iface + Constants.UNION_CHAR + (paramType == null ? "" : paramType);
 	}
 
 	@Override
@@ -72,6 +81,9 @@ public abstract class AbstractProtocol implements Protocol {
 		if (exporter != null) {
 			return exporter;
 		}
+
+		//
+
 		final Runnable runnable = doExport(proxyFactory.getProxy(invoker), invoker.getInterface(), invoker.getTpURL());
 		exporter = new AbstractExporter<T>(invoker) {
 			public void unexport() {

@@ -9,7 +9,12 @@ public class Constants {
 	public static final String TRIPLE_DIRECTORY = "META-INF/triple/";
 
 	public static final Pattern COMMA_SPLIT_PATTERN = Pattern.compile("\\s*[,]+\\s*");
-
-	public static final int DEFAULT_TRIPLE_PORT = 20890;
-
+	
+	public static final String TPURL_IFACE = "iface";
+	
+	public static final String TPURL_PROTOCAL = "protocol";
+	
+	public static final String TPURL_PARAMTYPE = "paramtype";
+	
+	public static final String UNION_CHAR = "_";
 }
