@@ -2,6 +2,7 @@ package org.triple.rpc;
 
 import org.triple.common.TpURL;
 import org.triple.common.extension.Adaptive;
+import org.triple.common.extension.SPI;
 import org.triple.rpc.exception.RpcException;
 
 /**
@@ -9,6 +10,7 @@ import org.triple.rpc.exception.RpcException;
  * @author Cxl
  * @createTime 2013-4-2 
  */
+@SPI("triple")
 public interface Protocol {
 
 	/**
