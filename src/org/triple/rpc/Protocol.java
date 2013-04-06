@@ -30,7 +30,6 @@ public interface Protocol {
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	@Adaptive
 	<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
 
 	/**
@@ -42,7 +41,6 @@ public interface Protocol {
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	@Adaptive
 	<T> Invoker<T> refer(Class<T> type, TpURL tpURL) throws RpcException;
 
 	/**
