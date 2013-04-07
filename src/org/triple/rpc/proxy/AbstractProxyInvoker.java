@@ -17,9 +17,10 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
 
 	private TpURL tpURL;
 
-	protected AbstractProxyInvoker(T proxy, Class<T> iface) {
+	protected AbstractProxyInvoker(T proxy, Class<T> iface, TpURL tpURL) {
 		this.iface = iface;
 		this.proxy = proxy;
+		this.tpURL = tpURL;
 	}
 
 	public Class<T> getInterface() {

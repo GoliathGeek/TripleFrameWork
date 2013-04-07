@@ -21,28 +21,38 @@ public class TripleProtocol extends AbstractProtocol {
 		return DEFAULT_TRIPLE_PORT;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.protocol.AbstractProtocol#doExport(java.lang.Object, java.lang.Class, org.triple.common.TpURL)
+	 */
 	@Override
 	protected <T> Runnable doExport(T proxy, Class<T> serviceClass, TpURL tpURL) throws RpcException {
-		try {
-			ServerSocket serverSocket = new ServerSocket(DEFAULT_TRIPLE_PORT);
-			while (true) {
-				// 启动一个socket 服务
-				// 准备监听
-				Socket socket = serverSocket.accept();
-				
+		final TripleServer serverThread = new TripleServer();
+		serverThread.start();
+		return new Runnable(){
+			@Override
+			public void run() {
+				serverThread.stopServer();
+				System.out.println("服务关闭了");
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		};
 	}
 
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.protocol.AbstractProtocol#doRefer(java.lang.Class, org.triple.common.TpURL)
+	 */
 	@Override
 	protected <T> T doRefer(Class<T> type, TpURL tpURL) throws RpcException {
-		// 返回type的动态代理类实例
-		// 请求
-		// 发送请求 将Invocation 序列化 
-	
+		// 联机模拟
+		// 生成动态代理类(包含发送请求 ，接收返回的功能)
+		
+		// 单机模拟
+		try {
+			return type.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

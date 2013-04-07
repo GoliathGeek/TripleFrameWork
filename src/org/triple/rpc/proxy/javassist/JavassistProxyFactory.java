@@ -19,7 +19,7 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 
 	@Override
 	public <T> T getProxy(final Invoker<T> invoker, Class<?> service) {
-		factory.setInterfaces(new Class<?>[] { service });
+		factory.setSuperclass(service);
 		Class<?> proxyClass = factory.createClass();
 
 		MethodHandler mi = new MethodHandler() {
@@ -47,7 +47,7 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 	@Override
 	public <T> Invoker<T> createProxyInvoker(T proxy, Class<T> iface, TpURL tpURL) throws RpcException {
 
-		return new AbstractProxyInvoker<T>(proxy, iface) {
+		return new AbstractProxyInvoker<T>(proxy, iface, tpURL) {
 
 			@Override
 			protected Object doInvoke(T proxy, String methodName, Class<?>[] parameterTypes, Object[] arguments)

@@ -27,7 +27,9 @@ public abstract class AbstractProxyFactory implements ProxyFactory {
 				Class<?> ifaceClazz = null;
 				try {
 					ifaceClazz = Class.forName(iface);
-					return (T) PROXY_CONTAINER.putIfAbsent(iface, getProxy(invoker, ifaceClazz));
+					T proxy = getProxy(invoker, ifaceClazz);
+					PROXY_CONTAINER.putIfAbsent(iface, proxy);
+					return proxy;
 				} catch (ClassNotFoundException e) {
 					throw new IllegalArgumentException("ifaceClazz :" + iface + " can not be found when  create Proxy ");
 				}

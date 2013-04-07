@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.triple.common.Constants;
 import org.triple.common.TpURL;
+import org.triple.common.extension.SPIExtension;
 import org.triple.common.util.ConcurrentHashSet;
 import org.triple.common.util.StringUtils;
 import org.triple.rpc.Exporter;
@@ -24,7 +25,7 @@ import org.triple.rpc.exception.RpcException;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractProtocol implements Protocol {
-	private ProxyFactory proxyFactory;
+	private ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
 	private final List<Class<?>> rpcExceptions = new CopyOnWriteArrayList<Class<?>>();
 
@@ -82,8 +83,6 @@ public abstract class AbstractProtocol implements Protocol {
 			return exporter;
 		}
 
-		//
-
 		final Runnable runnable = doExport(proxyFactory.getProxy(invoker), invoker.getInterface(), invoker.getTpURL());
 		exporter = new AbstractExporter<T>(invoker) {
 			public void unexport() {
@@ -98,7 +97,8 @@ public abstract class AbstractProtocol implements Protocol {
 				}
 			}
 		};
-		return (Exporter<T>) exporterMap.putIfAbsent(serviceKey, exporter);
+		exporterMap.putIfAbsent(serviceKey, exporter);
+		return exporter;
 	}
 
 	@Override

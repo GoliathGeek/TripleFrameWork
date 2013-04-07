@@ -22,7 +22,7 @@ public interface Protocol {
 	int getDefaultPort();
 
 	/**
-	 * 把一个可以运行的invoker【这个是P端的invoker】,进行暴露动作
+	 * Invoker【这个是P端的invoker】,进行暴露动作，将一个包含实际执行实例(代理对象)的Invoker进行发布动作
 	 * 采用注册中心时，这个方法被执行后  可以在注册中心发现对应的信息
 	 * @param invoker
 	 * @return
@@ -33,15 +33,15 @@ public interface Protocol {
 	<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
 
 	/**
-	 * 通过Url连接，获取到一个 iface 对应invoker【这个是P端的invoker】
-	 * @param type
+	 * Invoker【这个是C端的invoker】, 对iface 进行处理，得到一个能通过TpURL进行调用的Invoker
+	 * @param iface
 	 * @param tpURL
 	 * @return
 	 * @throws RpcException
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	<T> Invoker<T> refer(Class<T> type, TpURL tpURL) throws RpcException;
+	<T> Invoker<T> refer(Class<T> iface, TpURL tpURL) throws RpcException;
 
 	/**
 	 * 将一个protocol 摧毁，关闭服务，关闭端口

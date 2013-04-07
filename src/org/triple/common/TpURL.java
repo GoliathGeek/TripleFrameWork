@@ -9,10 +9,14 @@ public class TpURL implements Serializable {
 	private String path;
 	private String portocol;
 	private String host;
-	private String port;
+	private int port;
 	private Map<String, String> params = new HashMap<String, String>();
 
 	public TpURL() {}
+
+	public TpURL(String path) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String toString() {
 		return path;
@@ -42,13 +46,6 @@ public class TpURL implements Serializable {
 		this.host = host;
 	}
 
-	public String getPort() {
-		return port;
-	}
-
-	public void setPort(String port) {
-		this.port = port;
-	}
 
 	public Map<String, String> getParams() {
 		return params;
@@ -60,5 +57,13 @@ public class TpURL implements Serializable {
 
 	public String readParam(String key) {
 		return params == null ? null : params.get(key);
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
 	}
 }
