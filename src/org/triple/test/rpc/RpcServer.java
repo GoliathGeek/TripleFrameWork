@@ -32,8 +32,11 @@ public class RpcServer {
 		// ProxyFactory javassist
 		ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
+		// 对一个实际的执行对象进行包装，变身Invoker
 		Invoker<RpcTestService> invoker = proxyFactory.createProxyInvoker(new RpcTestService(), RpcTestService.class,
 				tpURL);
+		
+		// 把这个Invoker 发布出去 得到一个Exporter (已经可以被别人远程调用的Invoker)
 		Exporter<RpcTestService> exporter = protocol.export(invoker);
 		
 		try {
@@ -41,6 +44,7 @@ public class RpcServer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		// Exporter 销毁
 		exporter.unexport();
 	}
 }
