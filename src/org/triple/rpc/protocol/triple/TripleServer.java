@@ -16,7 +16,7 @@ public class TripleServer extends Thread {
 			}
 		}
 	}
-	
+
 	public void stopServer() {
 		this.runflag = false;
 	}

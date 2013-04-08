@@ -22,12 +22,12 @@ public class TripleProtocol extends AbstractProtocol {
 	 */
 	@Override
 	protected <T> Runnable doExport(T proxy, Class<T> serviceClass, TpURL tpURL) throws RpcException {
-		final TripleServer serverThread = new TripleServer();
-		serverThread.start();
-		return new Runnable(){
+		final TripleServer tripleServer = new TripleServer();
+		tripleServer.start();
+		return new Runnable() {
 			@Override
 			public void run() {
-				serverThread.stopServer();
+				tripleServer.stopServer();
 				System.out.println("服务关闭了");
 			}
 		};
@@ -40,7 +40,7 @@ public class TripleProtocol extends AbstractProtocol {
 	protected <T> T doRefer(Class<T> type, TpURL tpURL) throws RpcException {
 		// 联机模拟
 		// 生成动态代理类(包含发送请求 ，接收返回的功能)
-		
+
 		// 单机模拟
 		try {
 			return type.newInstance();

@@ -12,7 +12,8 @@ public class TpURL implements Serializable {
 	private int port;
 	private Map<String, String> params = new HashMap<String, String>();
 
-	public TpURL() {}
+	public TpURL() {
+	}
 
 	public TpURL(String path) {
 		// TODO Auto-generated constructor stub
@@ -45,7 +46,6 @@ public class TpURL implements Serializable {
 	public void setHost(String host) {
 		this.host = host;
 	}
-
 
 	public Map<String, String> getParams() {
 		return params;

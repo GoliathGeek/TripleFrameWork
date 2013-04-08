@@ -133,9 +133,9 @@ public abstract class AbstractProtocol implements Protocol {
 	 */
 	@Override
 	public <T> Invoker<T> refer(final Class<T> type, final TpURL tpURL) throws RpcException {
-		// 获得一个 服务类 对应的 remote 请求代理 
+		// 获得一个 服务类 对应的 remote 请求代理
 		T referProxy = doRefer(type, tpURL);
-		//  将这个请求代理进行包装，生成一个Invoker 具有远程调用外部service的能力
+		// 将这个请求代理进行包装，生成一个Invoker 具有远程调用外部service的能力
 		final Invoker<T> target = proxyFactory.createProxyInvoker(referProxy, type, tpURL);
 		// 生成一个AbstractInvoker 含有封装执行异常 ， invocation 处理的功能 可以理解成一个静态代理
 		// target.invoke 将会在 AbstractInvoker.invoke 方法中被执行

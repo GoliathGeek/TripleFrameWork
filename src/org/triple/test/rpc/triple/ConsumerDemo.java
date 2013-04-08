@@ -1,4 +1,4 @@
-package org.triple.test.rpc;
+package org.triple.test.rpc.triple;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,16 +6,16 @@ import java.util.Map;
 import org.triple.common.Constants;
 import org.triple.common.TpURL;
 import org.triple.common.extension.SPIExtension;
-import org.triple.rpc.Exporter;
 import org.triple.rpc.Invoker;
 import org.triple.rpc.Protocol;
 import org.triple.rpc.ProxyFactory;
 import org.triple.rpc.protocol.triple.TripleProtocol;
+import org.triple.test.rpc.DemoService;
 
-public class RpcServer {
-
+public class ConsumerDemo {
 	public static void main(String[] args) {
-		// String path = "triple://" + Constants.LOCALHOST + ":" + TripleProtocol.DEFAULT_TRIPLE_PORT;
+		// String path = "triple://" + Constants.LOCALHOST + ":" +
+		// TripleProtocol.DEFAULT_TRIPLE_PORT;
 		// TpURL tpURL = new TpURL(path,RpcTestService.class);
 
 		// 生成tpURL
@@ -24,7 +24,7 @@ public class RpcServer {
 		tpURL.setHost(Constants.LOCALHOST);
 		tpURL.setPort(TripleProtocol.DEFAULT_TRIPLE_PORT);
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("iface", "org.triple.test.rpc.RpcTestService");
+		params.put("iface", "org.triple.test.rpc.DemoService");
 		tpURL.setParams(params);
 
 		// Protocol triple
@@ -32,19 +32,15 @@ public class RpcServer {
 		// ProxyFactory javassist
 		ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
-		// 对一个实际的执行对象进行包装，变身Invoker
-		Invoker<RpcTestService> invoker = proxyFactory.createProxyInvoker(new RpcTestService(), RpcTestService.class,
-				tpURL);
-		
-		// 把这个Invoker 发布出去 得到一个Exporter 
-		Exporter<RpcTestService> exporter = protocol.export(invoker);
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		// 先生成一个具有请求tpURL功能的Invoker
+		Invoker<DemoService> invoker = protocol.refer(DemoService.class, tpURL);
+		// 把这个Invoker通过代理工厂转化为服务的代理实现
+		DemoService rpcTestServiceProxy = proxyFactory.getProxy(invoker);
+
+		// 代理调用
+		String[] keyWords = { "found", "catch", "catched", "know", "teach", "readyEat", "taste" };
+		for (String key : keyWords) {
+			System.out.println(rpcTestServiceProxy.getWords(key));
 		}
-		// Exporter 销毁
-		exporter.unexport();
 	}
 }

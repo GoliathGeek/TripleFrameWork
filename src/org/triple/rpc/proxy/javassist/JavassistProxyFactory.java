@@ -38,7 +38,7 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 					return m.invoke(self, params);
 				}
 				// 封装 method params 为 RpcInvocation
-				// 把返回的Result 进行recreate处理 
+				// 把返回的Result 进行recreate处理
 				return invoker.invoke(new RpcInvocation(m, params)).recreate();
 			}
 		};

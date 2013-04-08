@@ -6,11 +6,11 @@ import java.util.Map;
 import org.triple.common.annotation.TripleService;
 
 @TripleService
-public class RpcTestService {
-	
-	private static Map<String,String> wordsMap = new HashMap<String,String>();
-	
-	static{
+public class DemoService {
+
+	private static Map<String, String> wordsMap = new HashMap<String, String>();
+
+	static {
 		wordsMap.put("found", "看！这里有一只落单的theonefx");
 		wordsMap.put("catch", "不要惊动他，我们从后面绕过去");
 		wordsMap.put("catched", "嘿！我抓到了！蹦哒的还挺给力");
@@ -19,8 +19,8 @@ public class RpcTestService {
 		wordsMap.put("readyEat", "我要开始吃了，像这样扭掉头，把肠子挤出来，饿...");
 		wordsMap.put("taste", "这味道有点像鸡肉");
 	}
-	
-	public String getWords(String key){
+
+	public String getWords(String key) {
 		return wordsMap.get(key);
 	}
 }

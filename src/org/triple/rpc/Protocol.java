@@ -1,7 +1,6 @@
 package org.triple.rpc;
 
 import org.triple.common.TpURL;
-import org.triple.common.extension.Adaptive;
 import org.triple.common.extension.SPI;
 import org.triple.rpc.exception.RpcException;
 

@@ -47,11 +47,10 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 		this.attachment = attachment == null ? null : Collections.unmodifiableMap(attachment);
 	}
 
-	public TpURL getTpURL(){
+	public TpURL getTpURL() {
 		return this.tpURL;
 	}
 
-	
 	private static Map<String, String> convertAttachment(TpURL tpUrl, String[] keys) {
 		if (keys == null || keys.length == 0) {
 			return null;
@@ -117,7 +116,7 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 		}
 		RpcUtils.attachInvocationIdIfAsync(getUrl(), invocation);
 		*/
-		
+
 		// 实际的执行，封装异常
 		try {
 			return doInvoke(invocation);
