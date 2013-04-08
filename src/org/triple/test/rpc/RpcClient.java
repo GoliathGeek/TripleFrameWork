@@ -32,13 +32,13 @@ public class RpcClient {
 
 		// 先生成一个具有请求tpURL功能的Invoker
 		Invoker<RpcTestService> invoker = protocol.refer(RpcTestService.class, tpURL);
-		// 把这个Invoker通过代理工厂转化为代理实现
-		RpcTestService rpcTestService = proxyFactory.getProxy(invoker);
+		// 把这个Invoker通过代理工厂转化为服务的代理实现
+		RpcTestService rpcTestServiceProxy = proxyFactory.getProxy(invoker);
 		
-		// 实际调用
+		// 代理调用
 		String[] keyWords = { "found", "catch", "catched", "know", "teach", "readyEat", "taste" };
 		for (String key : keyWords) {
-			System.out.println(rpcTestService.getWords(key));
+			System.out.println(rpcTestServiceProxy.getWords(key));
 		}
 	}
 }

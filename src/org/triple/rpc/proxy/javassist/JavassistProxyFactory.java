@@ -13,10 +13,19 @@ import org.triple.rpc.exception.RpcException;
 import org.triple.rpc.proxy.AbstractProxyFactory;
 import org.triple.rpc.proxy.AbstractProxyInvoker;
 
+/**
+ * jvavassist的代理实现
+ * @author Cxl
+ * @createTime 2013-4-8 
+ */
+@SuppressWarnings("unchecked")
 public class JavassistProxyFactory extends AbstractProxyFactory {
 
 	private ProxyFactory factory = new ProxyFactory();
 
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.proxy.AbstractProxyFactory#getProxy(org.triple.rpc.Invoker, java.lang.Class)
+	 */
 	@Override
 	public <T> T getProxy(final Invoker<T> invoker, Class<?> service) {
 		factory.setSuperclass(service);
@@ -28,6 +37,8 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 				if (checkMethodProxy(methodName, params)) {
 					return m.invoke(self, params);
 				}
+				// 封装 method params 为 RpcInvocation
+				// 把返回的Result 进行recreate处理 
 				return invoker.invoke(new RpcInvocation(m, params)).recreate();
 			}
 		};
@@ -44,11 +55,17 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 		return proxyInstance;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.ProxyFactory#createProxyInvoker(java.lang.Object, java.lang.Class, org.triple.common.TpURL)
+	 */
 	@Override
 	public <T> Invoker<T> createProxyInvoker(T proxy, Class<T> iface, TpURL tpURL) throws RpcException {
 
 		return new AbstractProxyInvoker<T>(proxy, iface, tpURL) {
 
+			/* (non-Javadoc)
+			 * @see org.triple.rpc.proxy.AbstractProxyInvoker#doInvoke(java.lang.Object, java.lang.String, java.lang.Class<?>[], java.lang.Object[])
+			 */
 			@Override
 			protected Object doInvoke(T proxy, String methodName, Class<?>[] parameterTypes, Object[] arguments)
 					throws Exception {

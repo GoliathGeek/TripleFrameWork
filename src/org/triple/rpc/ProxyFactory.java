@@ -5,7 +5,7 @@ import org.triple.common.extension.SPI;
 import org.triple.rpc.exception.RpcException;
 
 /**
- * TODO
+ * 代理工厂
  * @author Cxl
  * @createTime 2013-4-2 
  */
@@ -13,7 +13,7 @@ import org.triple.rpc.exception.RpcException;
 public interface ProxyFactory {
 
 	/**
-	 * get proxy 获取invoker的实际执行对象
+	 * 获取invoker的代理实现
 	 * @param invoker
 	 * @return Proxy
 	 * @throws RpcException
@@ -23,8 +23,8 @@ public interface ProxyFactory {
 	<T> T getProxy(Invoker<T> invoker) throws RpcException;
 
 	/**
-	 * create invoker 创建一个代理执行的Invoker
-	 * @param proxy
+	 * create invoker 把一个instance 变身成为代理执行的Invoker
+	 * @param instance
 	 * @param type
 	 * @param url
 	 * @return ProxyInvoker
@@ -32,6 +32,6 @@ public interface ProxyFactory {
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	<T> Invoker<T> createProxyInvoker(T proxy, Class<T> type, TpURL tpURL) throws RpcException;
+	<T> Invoker<T> createProxyInvoker(T instance, Class<T> type, TpURL tpURL) throws RpcException;
 
 }

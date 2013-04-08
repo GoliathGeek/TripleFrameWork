@@ -36,7 +36,7 @@ public class RpcServer {
 		Invoker<RpcTestService> invoker = proxyFactory.createProxyInvoker(new RpcTestService(), RpcTestService.class,
 				tpURL);
 		
-		// 把这个Invoker 发布出去 得到一个Exporter (已经可以被别人远程调用的Invoker)
+		// 把这个Invoker 发布出去 得到一个Exporter 
 		Exporter<RpcTestService> exporter = protocol.export(invoker);
 		
 		try {

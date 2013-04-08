@@ -1,9 +1,5 @@
 package org.triple.rpc.protocol.triple;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import org.triple.common.TpURL;
 import org.triple.rpc.exception.RpcException;
 import org.triple.rpc.protocol.AbstractProtocol;
