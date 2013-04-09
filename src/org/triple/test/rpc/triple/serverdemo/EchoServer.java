@@ -2,12 +2,11 @@ package org.triple.test.rpc.triple.serverdemo;
 
 //echoServer.java
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -24,14 +23,14 @@ public class EchoServer {
 		return "echo:" + msg;
 	}
 
-	private PrintWriter getWriter(Socket socket) throws IOException {
+	private ObjectOutputStream getWriter(Socket socket) throws IOException {
 		OutputStream socketOut = socket.getOutputStream();
-		return new PrintWriter(socketOut, true);
+		return new ObjectOutputStream(socketOut);
 	}
 
-	private BufferedReader getReader(Socket socket) throws IOException {
+	private ObjectInputStream getReader(Socket socket) throws IOException {
 		InputStream socketIn = socket.getInputStream();
-		return new BufferedReader(new InputStreamReader(socketIn));
+		return new ObjectInputStream(socketIn);
 	}
 
 	public void server() {
@@ -40,17 +39,17 @@ public class EchoServer {
 			try {
 				socket = serverSocket.accept();
 				System.out.println("New connection accepted" + socket.getInetAddress() + ":" + socket.getPort());
-				BufferedReader br = getReader(socket);
-				PrintWriter pw = getWriter(socket);
-
-				String msg = null;
-				while ((msg = br.readLine()) != null) {
-					System.out.println(msg);
-					pw.println(echo(msg));
-					if (msg.equals("bye"))
-						break;
+				ObjectOutputStream oos = getWriter(socket);
+				ObjectInputStream ois = getReader(socket);
+				
+				String obj = (String) ois.readObject();
+				if (obj != null) {
+					System.out.println(obj);
+					oos.writeObject(echo(obj));
 				}
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} finally {
 				try {

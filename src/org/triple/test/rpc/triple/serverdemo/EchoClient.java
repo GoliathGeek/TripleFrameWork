@@ -2,10 +2,9 @@ package org.triple.test.rpc.triple.serverdemo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class EchoClient {
@@ -17,29 +16,29 @@ public class EchoClient {
 		socket = new Socket(host, port);
 	}
 
-	private PrintWriter getWriter(Socket socket) throws IOException {
-		OutputStream socketOut = socket.getOutputStream();
-		return new PrintWriter(socketOut, true);
+	private ObjectOutputStream getWriter(Socket socket) throws IOException {
+		return new ObjectOutputStream(socket.getOutputStream());
 	}
 
-	private BufferedReader getReader(Socket socket) throws IOException {
-		InputStream socketIn = socket.getInputStream();
-		return new BufferedReader(new InputStreamReader(socketIn));
+	private ObjectInputStream getReader(Socket socket) throws IOException {
+		return new ObjectInputStream(socket.getInputStream());
 	}
 
 	public void talk() throws IOException {
 		try {
-			BufferedReader br = getReader(socket);
-			PrintWriter pw = getWriter(socket);
+			ObjectInputStream ois = getReader(socket);
+			ObjectOutputStream oos = getWriter(socket);
 			BufferedReader localReader = new BufferedReader(new InputStreamReader(System.in));
 			String msg = null;
 			while ((msg = localReader.readLine()) != null) {
-				pw.println(msg);
-				System.out.println(br.readLine());
+				oos.writeObject(msg);
+				System.out.println(ois.readObject());
 				if (msg.equals("bye"))
 					break;
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			try {

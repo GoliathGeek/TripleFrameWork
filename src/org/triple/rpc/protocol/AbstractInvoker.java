@@ -19,11 +19,11 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final Class<T> type;
+	protected final Class<T> type;
 
-	private final TpURL tpURL;
+	protected final TpURL tpURL;
 
-	private final Map<String, String> attachment;
+	protected final Map<String, String> attachment;
 
 	private volatile boolean available = true;
 
