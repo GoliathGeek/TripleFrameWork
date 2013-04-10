@@ -7,13 +7,15 @@ package org.triple.rpc;
  */
 public interface Invocation {
 
+	public Class<?> getType();
+	
 	/**
 	 * get method name.
 	 * 
 	 * @serial
 	 * @return method name.
 	 */
-	String getMethodName();
+	public String getMethodName();
 
 	/**
 	 * get parameter types.
@@ -21,7 +23,7 @@ public interface Invocation {
 	 * @serial
 	 * @return parameter types.
 	 */
-	Class<?>[] getParameterTypes();
+	public Class<?>[] getParameterTypes();
 
 	/**
 	 * get arguments.
@@ -29,7 +31,7 @@ public interface Invocation {
 	 * @serial
 	 * @return arguments.
 	 */
-	Object[] getArguments();
+	public Object[] getArguments();
 
 	/**
 	 * get attachments.
@@ -61,6 +63,6 @@ public interface Invocation {
 	 * @transient
 	 * @return invoker.
 	 */
-	Invoker<?> getInvoker();
+	public Invoker<?> getInvoker();
 
 }

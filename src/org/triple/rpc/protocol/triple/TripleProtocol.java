@@ -1,7 +1,6 @@
 package org.triple.rpc.protocol.triple;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 
 import org.triple.common.TpURL;
 import org.triple.rpc.Exporter;
@@ -16,28 +15,26 @@ import org.triple.rpc.protocol.AbstractProtocol;
  */
 @SuppressWarnings("unchecked")
 public class TripleProtocol extends AbstractProtocol {
+	public final static String PROTOCOL_NAME = "triple";
 	public static final int DEFAULT_TRIPLE_PORT = 20890;
 	private boolean serverStarted;
-	private ServerSocket serverSocket;
+	private TripleServer tripleServer = new TripleServer(this);
+
 	@Override
 	public int getDefaultPort() {
 		return DEFAULT_TRIPLE_PORT;
 	}
 
-	protected <T> Runnable doExport(T proxy, Class<T> serviceClass, TpURL tpURL) throws RpcException {
-		try {
-			final TripleServer tripleServer = new TripleServer();
-			tripleServer.start();
-			return new Runnable() {
-				@Override
-				public void run() {
-					tripleServer.stopServer();
-					System.out.println("服务关闭了");
-				}
-			};
-		} catch (IOException e) {
-			throw new RpcException(e);
-		}
+	/*protected <T> Runnable doExport(T proxy, Class<T> serviceClass, TpURL tpURL) throws RpcException {
+		final TripleServer tripleServer = new TripleServer();
+		tripleServer.start();
+		return new Runnable() {
+			@Override
+			public void run() {
+				tripleServer.stopServer();
+				System.out.println("服务关闭了");
+			}
+		};
 	}
 
 	protected <T> T doRefer(Class<T> type, TpURL tpURL) throws RpcException {
@@ -53,7 +50,7 @@ public class TripleProtocol extends AbstractProtocol {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
 
 	@Override
 	public <T> Exporter<T> export(Invoker<T> invoker) throws RpcException {
@@ -64,27 +61,30 @@ public class TripleProtocol extends AbstractProtocol {
 		if (exporter != null) {
 			return exporter;
 		}
-		
-		if(!serverStarted){
+
+		if (!serverStarted) {
 			try {
 				openServer();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		Exporter tripleExporter = new TripleExporter(invoker);
+		Exporter<T> tripleExporter = new TripleExporter<T>(invoker);
 		exporterMap.putIfAbsent(serviceKey, tripleExporter);
 		return tripleExporter;
 	}
 
 	private void openServer() throws IOException {
-		TripleServer tripleServer = new TripleServer();
 		tripleServer.start();
 	}
 
 	@Override
 	public <T> Invoker<T> refer(Class<T> type, TpURL tpURL) throws RpcException {
-		return  new TripleInvoker(type, tpURL);
+		return new TripleInvoker<T>(type, tpURL);
 	}
 
+	public void destroy() {
+		super.destroy();
+		tripleServer.stopServer();
+	}
 }

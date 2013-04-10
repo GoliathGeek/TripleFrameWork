@@ -8,7 +8,9 @@ import java.util.Map;
 
 @SuppressWarnings("serial")
 public class RpcInvocation implements Invocation, Serializable {
-
+	
+	private Class<?> type;
+	
 	private String methodName;
 
 	private Class<?>[] parameterTypes;
@@ -149,6 +151,14 @@ public class RpcInvocation implements Invocation, Serializable {
 	public String toString() {
 		return "RpcInvocation [methodName=" + methodName + ", parameterTypes=" + Arrays.toString(parameterTypes)
 				+ ", arguments=" + Arrays.toString(arguments) + ", attachments=" + attachments + "]";
+	}
+
+	public Class<?> getType() {
+		return type;
+	}
+
+	public void setType(Class<?> type) {
+		this.type = type;
 	}
 
 }

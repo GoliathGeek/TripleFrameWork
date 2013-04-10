@@ -84,19 +84,38 @@ public abstract class AbstractProtocol implements Protocol {
 		if (StringUtils.isBlank(iface)) {
 			throw new RuntimeException(Constants.TPURL_IFACE + " can not be null , please check tpurl : " + tpURL);
 		}
-		String paramType = params.get(Constants.TPURL_PARAMTYPE);
-		return protocol + Constants.UNION_CHAR + iface + Constants.UNION_CHAR + (paramType == null ? "" : paramType);
+		/*	String paramTypes = params.get(Constants.TPURL_PARAMTYPE);
+		String[] paramTypeArr = StringUtils.isBlank(paramTypes) ? new String[] {} : paramTypes.split("\\.");*/
+		return getServiceKey(protocol, iface);
 	}
 
-	protected RpcException getRpcException(Class<?> type, TpURL tpURL, Invocation invocation, Throwable e) {
+	public RpcException getRpcException(Class<?> type, TpURL tpURL, Invocation invocation, Throwable e) {
 		RpcException re = new RpcException("Failed to invoke remote service: " + type + ", method: "
 				+ invocation.getMethodName() + ", cause: " + e.getMessage(), e);
 		re.setCode(getErrorCode(e));
 		return re;
 	}
 
+	private String getServiceKey(String protocol, String type) {
+		
+		/*
+		 String paramStr = "";if (paramTypeArr != null && paramTypeArr.length > 0) {
+			for (String paramType : paramTypeArr) {
+				paramStr = paramStr + Constants.UNION_CHAR + paramType;
+			}
+		}*/
+		return protocol + Constants.UNION_CHAR + type;
+		/*+ (StringUtils.isBlank(paramStr) ? "" : Constants.UNION_CHAR + paramStr);*/
+	}
+
 	protected int getErrorCode(Throwable e) {
 		return RpcException.UNKNOWN_EXCEPTION;
 	}
 
+	public Exporter<?> getExporter(String protocolName, Class<?> type) {
+		String typeName = type.getName();
+		
+		String serviceKey = this.getServiceKey(protocolName, typeName);
+		return exporterMap.get(serviceKey);
+	}
 }

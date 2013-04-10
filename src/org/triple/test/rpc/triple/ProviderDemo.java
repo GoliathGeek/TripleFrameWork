@@ -1,5 +1,8 @@
 package org.triple.test.rpc.triple;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,12 +43,19 @@ public class ProviderDemo {
 		// 把这个Invoker 发布出去 得到一个Exporter
 		Exporter<DemoService> exporter = protocol.export(invoker);
 
+		BufferedReader control = new BufferedReader(new InputStreamReader(System.in));
+		String command  = null;
 		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
+			while((command = control.readLine())!=null){
+				if(command.equals("stopServer")){
+					exporter.unexport();
+					protocol.destroy();
+					break;
+				}
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// Exporter 销毁
-		exporter.unexport();
+		System.out.println("ProviderDemo 将在triple最近一次请求完成后停止");
 	}
 }

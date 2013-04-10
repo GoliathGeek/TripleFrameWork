@@ -27,7 +27,7 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 	 * @see org.triple.rpc.proxy.AbstractProxyFactory#getProxy(org.triple.rpc.Invoker, java.lang.Class)
 	 */
 	@Override
-	public <T> T getProxy(final Invoker<T> invoker, Class<?> service) {
+	public <T> T getProxy(final Invoker<T> invoker, final Class<?> service) {
 		factory.setSuperclass(service);
 		Class<?> proxyClass = factory.createClass();
 
@@ -39,7 +39,9 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 				}
 				// 封装 method params 为 RpcInvocation
 				// 把返回的Result 进行recreate处理
-				return invoker.invoke(new RpcInvocation(m, params)).recreate();
+				RpcInvocation rpcInvocation = new RpcInvocation(m, params);
+				rpcInvocation.setType(service);
+				return invoker.invoke(rpcInvocation).recreate();
 			}
 		};
 

@@ -7,18 +7,24 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.triple.rpc.Invocation;
+import org.triple.rpc.Invoker;
 import org.triple.rpc.Result;
 
-public class TripleServer extends Thread{
+public class TripleServer extends Thread {
 	private ServerSocket serverSocket;
 	private volatile boolean runflag = true;
+	private TripleProtocol tripleProtocol;
 
-	public TripleServer() throws IOException {
-		serverSocket = new ServerSocket(TripleProtocol.DEFAULT_TRIPLE_PORT);
-
+	public TripleServer(TripleProtocol tripleProtocol) {
+		this.tripleProtocol = tripleProtocol;
 	}
 
 	public void run() {
+		try {
+			serverSocket = new ServerSocket(TripleProtocol.DEFAULT_TRIPLE_PORT);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		System.out.println("服务启动了");
 		while (runflag) {
 			Socket socket = null;
@@ -47,12 +53,18 @@ public class TripleServer extends Thread{
 	}
 
 	private Result doInvoke(Invocation invocation) {
-		Class<?> type = invocation.getClass();
-		Object[] params = invocation.getArguments();
-		return null;
+		Class<?> type = invocation.getType();
+		/*Object[] params = invocation.getArguments();
+		Class<?>[] paramTypeArr = new Class<?>[params.length];
+		for (int i = 0; i < params.length; i++) {
+			paramTypeArr[i] = params[i].getClass();
+		}*/
+		Invoker<?> invoker = this.tripleProtocol.getExporter(TripleProtocol.PROTOCOL_NAME, type).getInvoker();
+		return invoker.invoke(invocation);
 	}
 
 	public void stopServer() {
+		System.out.println("服务即将关闭");
 		this.runflag = false;
 	}
 }
