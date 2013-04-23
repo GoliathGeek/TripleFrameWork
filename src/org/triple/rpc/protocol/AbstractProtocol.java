@@ -78,7 +78,7 @@ public abstract class AbstractProtocol implements Protocol {
 	 * @createTime 2013-4-8
 	 */
 	protected String getServiceKey(TpURL tpURL) throws RuntimeException {
-		String protocol = tpURL.getPortocol();
+		String protocol = tpURL.getProtocol();
 		Map<String, String> params = tpURL.getParams();
 		String iface = params.get(Constants.TPURL_IFACE);
 		if (StringUtils.isBlank(iface)) {

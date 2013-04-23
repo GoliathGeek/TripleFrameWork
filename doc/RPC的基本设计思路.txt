@@ -3,7 +3,7 @@
 
 虚角色（逻辑意义上的角色）
 Provider 服务的提供者 类似MVC的Model，服务的实现者
-Customer 服务的消费者 类似MVC的Controler，调用Provider提供的服务
+Customer 服务的消费者 类似MVC的Controller，调用Provider提供的服务
 
 实角色
 Node 每个节点都有自己的连接信息,状态
