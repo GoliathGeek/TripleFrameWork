@@ -21,7 +21,7 @@ public class TripleServer extends Thread {
 
 	public void run() {
 		try {
-			serverSocket = new ServerSocket(TripleProtocol.DEFAULT_TRIPLE_PORT);
+			serverSocket = new ServerSocket(tripleProtocol.getDefaultPort());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

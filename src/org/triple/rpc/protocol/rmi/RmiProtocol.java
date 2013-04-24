@@ -22,14 +22,22 @@ import org.triple.rpc.protocol.AbstractProtocolProxy;
 @SuppressWarnings("unchecked")
 public class RmiProtocol extends AbstractProtocolProxy {
 	public static final String PROTOCOL_NAME = "rmi";
-	public static final int DEFAULT_TRIPLE_PORT = 20881;
+	public static final  int DEFAULT_PORT = 20881;
+
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.Protocol#getProtocolName()
+	 */
+	@Override
+	public String getProtocolName() {
+		return PROTOCOL_NAME;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.triple.rpc.Protocol#getDefaultPort()
 	 */
 	@Override
 	public int getDefaultPort() {
-		return DEFAULT_TRIPLE_PORT;
+		return DEFAULT_PORT;
 	}
 
 	/* (non-Javadoc)

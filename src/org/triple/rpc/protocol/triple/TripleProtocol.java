@@ -15,14 +15,25 @@ import org.triple.rpc.protocol.AbstractProtocol;
  */
 @SuppressWarnings("unchecked")
 public class TripleProtocol extends AbstractProtocol {
-	public static final String PROTOCOL_NAME = "triple";
-	public static final int DEFAULT_TRIPLE_PORT = 20890;
+	public static String PROTOCOL_NAME = "triple";
+	public static int DEFAULT_PORT = 20890;
 	private boolean serverStarted;
 	private TripleServer tripleServer = new TripleServer(this);
 
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.Protocol#getProtocolName()
+	 */
+	@Override
+	public String getProtocolName() {
+		return PROTOCOL_NAME;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.triple.rpc.Protocol#getDefaultPort()
+	 */
 	@Override
 	public int getDefaultPort() {
-		return DEFAULT_TRIPLE_PORT;
+		return DEFAULT_PORT;
 	}
 
 	@Override
@@ -57,7 +68,7 @@ public class TripleProtocol extends AbstractProtocol {
 	}
 
 	public void destroy() {
-		super.destroy();
 		tripleServer.stopServer();
+		super.destroy();
 	}
 }

@@ -17,10 +17,9 @@ import org.triple.rpc.exception.RpcException;
  * @createTime 2013-4-8 
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractProtocolProxy extends  AbstractProtocol {
+public abstract class AbstractProtocolProxy extends AbstractProtocol {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
 
 	/* (non-Javadoc)
 	 * @see org.triple.rpc.Protocol#destroy()

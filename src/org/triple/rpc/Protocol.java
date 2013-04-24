@@ -12,13 +12,15 @@ import org.triple.rpc.exception.RpcException;
 @SPI("triple")
 public interface Protocol {
 
+	public String getProtocolName();
+	
 	/**
 	 * 获取默认的端口
 	 * @return
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	int getDefaultPort();
+	public int getDefaultPort();
 
 	/**
 	 * Invoker【这个是P端的invoker】,进行暴露动作，将一个包含实际执行实例(代理对象)的Invoker进行发布动作
@@ -29,7 +31,7 @@ public interface Protocol {
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
+	public <T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
 
 	/**
 	 * Invoker【这个是C端的invoker】, 对iface 进行处理，得到一个能通过TpURL进行调用的Invoker
@@ -40,13 +42,12 @@ public interface Protocol {
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	<T> Invoker<T> refer(Class<T> iface, TpURL tpURL) throws RpcException;
+	public <T> Invoker<T> refer(Class<T> iface, TpURL tpURL) throws RpcException;
 
 	/**
 	 * 将一个protocol 摧毁，关闭服务，关闭端口
 	 * @author Cxl
 	 * @createTime 2013-4-2
 	 */
-	void destroy();
-
+	public void destroy();
 }

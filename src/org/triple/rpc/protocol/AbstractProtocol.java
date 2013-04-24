@@ -97,7 +97,7 @@ public abstract class AbstractProtocol implements Protocol {
 	}
 
 	private String getServiceKey(String protocol, String type) {
-		
+
 		/*
 		 String paramStr = "";if (paramTypeArr != null && paramTypeArr.length > 0) {
 			for (String paramType : paramTypeArr) {
@@ -114,7 +114,7 @@ public abstract class AbstractProtocol implements Protocol {
 
 	public Exporter<?> getExporter(String protocolName, Class<?> type) {
 		String typeName = type.getName();
-		
+
 		String serviceKey = this.getServiceKey(protocolName, typeName);
 		return exporterMap.get(serviceKey);
 	}
