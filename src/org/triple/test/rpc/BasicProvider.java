@@ -16,11 +16,11 @@ import org.triple.rpc.ProxyFactory;
 import org.triple.rpc.exception.RpcException;
 
 public class BasicProvider<T> {
-	protected Protocol protocol;
-	protected ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
-	protected TpURL tpURL;
-	Exporter<DemoService> exporter;
+	
+	private TpURL tpURL;
+	private Protocol protocol;
 	private String protocolName;
+	private ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
 	public BasicProvider(String prototolName) {
 		this.initProtocol(prototolName);

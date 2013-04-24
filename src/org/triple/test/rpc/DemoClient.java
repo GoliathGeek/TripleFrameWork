@@ -4,7 +4,7 @@
 package org.triple.test.rpc;
 
 import org.triple.common.Constants;
-import org.triple.rpc.protocol.triple.TripleProtocol;
+import org.triple.rpc.protocol.rmi.RmiProtocol;
 
 /**
  * TODO
@@ -15,7 +15,7 @@ public class DemoClient {
 
 	public static void main(String[] args) {
 
-		DemoService remoteService = new BasicConsumer<DemoService>(TripleProtocol.PROTOCOL_NAME, Constants.LOCALHOST)
+		DemoService remoteService = new BasicConsumer<DemoService>(RmiProtocol.PROTOCOL_NAME, Constants.LOCALHOST)
 				.getService(DemoService.class);
 
 		String[] keyWords = { "found", "catch", "catched", "know", "teach", "readyEat", "taste" };

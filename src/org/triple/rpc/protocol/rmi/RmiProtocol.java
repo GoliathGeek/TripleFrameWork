@@ -48,7 +48,7 @@ public class RmiProtocol extends AbstractProtocolProxy {
 		final RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
 		rmiServiceExporter.setRegistryPort(tpURL.getPort());
 		rmiServiceExporter.setServiceName(tpURL.getPath());
-		rmiServiceExporter.setServiceInterface(serviceClass);
+		rmiServiceExporter.setServiceInterface(serviceClass.getInterfaces()[0]);
 		rmiServiceExporter.setService(proxy);
 		try {
 			rmiServiceExporter.afterPropertiesSet();

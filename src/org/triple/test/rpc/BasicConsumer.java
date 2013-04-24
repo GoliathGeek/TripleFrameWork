@@ -13,10 +13,11 @@ import org.triple.rpc.Protocol;
 import org.triple.rpc.ProxyFactory;
 
 public class BasicConsumer<T> {
+	
+	private TpURL tpURL;
 	private Protocol protocol;
-	private ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
-	protected TpURL tpURL;
 	private String protocolName;
+	private ProxyFactory proxyFactory = SPIExtension.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
 	public BasicConsumer(String protocolName, String host) {
 		this.initProtocol(protocolName);

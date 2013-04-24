@@ -6,7 +6,7 @@ import java.util.Map;
 import org.triple.common.annotation.TripleService;
 
 @TripleService
-public class DemoService {
+public class DemoService implements IDemoService {
 
 	private static Map<String, String> wordsMap = new HashMap<String, String>();
 

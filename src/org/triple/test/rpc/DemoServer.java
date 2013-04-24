@@ -3,7 +3,7 @@
  */
 package org.triple.test.rpc;
 
-import org.triple.rpc.protocol.triple.TripleProtocol;
+import org.triple.rpc.protocol.rmi.RmiProtocol;
 
 /**
  * TODO
@@ -13,7 +13,7 @@ import org.triple.rpc.protocol.triple.TripleProtocol;
 public class DemoServer {
 
 	public static void main(String[] args) {
-		new BasicProvider<DemoService>(TripleProtocol.PROTOCOL_NAME).exportService(DemoService.class);
+		new BasicProvider<DemoService>(RmiProtocol.PROTOCOL_NAME).exportService(DemoService.class);
 	}
 
 }

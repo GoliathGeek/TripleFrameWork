@@ -1,1 +1,2 @@
 triple=org.triple.rpc.protocol.triple.TripleProtocol
+rmi=org.triple.rpc.protocol.rmi.RmiProtocol
