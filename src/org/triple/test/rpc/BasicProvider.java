@@ -50,7 +50,6 @@ public class BasicProvider<T> {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("iface", serviceClass.getName());
 		tpURL.setParams(params);
-
 		// 对一个实际的执行对象进行包装，变身Invoker
 		Invoker<T> invoker = null;
 		try {

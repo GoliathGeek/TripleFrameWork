@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jboss.netty.util.internal.StringUtil;
 import org.triple.common.util.StringUtils;
 
 @SuppressWarnings("serial")
@@ -53,7 +52,26 @@ public class TpURL implements Serializable {
 	}
 
 	public String getPath() {
+		if(this.path==null){
+			path = this.buildPath();
+		}
 		return path;
+	}
+
+	private String buildPath() {
+		StringBuffer builder = new StringBuffer();
+		if(this.protocol!=null){
+			builder.append(this.protocol);
+		}
+		if(this.host!=null){
+			builder.append("://");
+			builder.append(this.host);
+		}
+		if(this.port>0){
+			builder.append(":");
+			builder.append(this.port);
+		}
+		return builder.toString();
 	}
 
 	public void setPath(String path) {
@@ -74,6 +92,10 @@ public class TpURL implements Serializable {
 
 	public void setParams(Map<String, String> params) {
 		this.params = params;
+	}
+
+	public void addParam(String key, String value) {
+		this.params.put(key, value);
 	}
 
 	public String readParam(String key) {
@@ -126,6 +148,10 @@ public class TpURL implements Serializable {
 				builder.append(":");
 				builder.append(this.port);
 			}
+		}
+		if(params.get("iface")!=null){
+			builder.append("/");
+			builder.append(params.get("iface"));
 		}
 		return builder.toString();
 	}

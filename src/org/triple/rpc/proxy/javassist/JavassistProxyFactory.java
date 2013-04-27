@@ -33,10 +33,10 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 
 		MethodHandler mi = new MethodHandler() {
 			public Object invoke(Object self, Method m, Method proceed, Object[] params) throws Throwable {
-				String methodName = m.getName();
+				/*String methodName = m.getName();
 				if (checkMethodProxy(methodName, params)) {
 					return m.invoke(self, params);
-				}
+				}*/
 				// 封装 method params 为 RpcInvocation
 				// 把返回的Result 进行recreate处理
 				RpcInvocation rpcInvocation = new RpcInvocation(m, params);
@@ -69,9 +69,10 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
 			 * @see org.triple.rpc.proxy.AbstractProxyInvoker#doInvoke(java.lang.Object, java.lang.String, java.lang.Class<?>[], java.lang.Object[])
 			 */
 			@Override
-			protected Object doInvoke(T proxy, String methodName, Class<?>[] parameterTypes, Object[] arguments)
+			protected Object doInvoke(T proxy, String methodName, Class<?>[] parameterTypes, Object[] params)
 					throws Exception {
-				return proxy.getClass().getMethod(methodName, parameterTypes).invoke(proxy, arguments);
+				
+				return proxy.getClass().getMethod(methodName, parameterTypes).invoke(proxy, params);
 			}
 		};
 	}

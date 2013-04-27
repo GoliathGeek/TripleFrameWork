@@ -22,7 +22,7 @@ import org.triple.rpc.protocol.AbstractProtocolProxy;
 @SuppressWarnings("unchecked")
 public class RmiProtocol extends AbstractProtocolProxy {
 	public static final String PROTOCOL_NAME = "rmi";
-	public static final  int DEFAULT_PORT = 20881;
+	public static final  int DEFAULT_PORT = 1099;
 
 	/* (non-Javadoc)
 	 * @see org.triple.rpc.Protocol#getProtocolName()
@@ -47,7 +47,7 @@ public class RmiProtocol extends AbstractProtocolProxy {
 	protected <T> Runnable doExport(T proxy, Class<T> serviceClass, TpURL tpURL) throws RpcException {
 		final RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
 		rmiServiceExporter.setRegistryPort(tpURL.getPort());
-		rmiServiceExporter.setServiceName(tpURL.getPath());
+		rmiServiceExporter.setServiceName(serviceClass.getName());
 		rmiServiceExporter.setServiceInterface(serviceClass.getInterfaces()[0]);
 		rmiServiceExporter.setService(proxy);
 		try {
@@ -73,7 +73,7 @@ public class RmiProtocol extends AbstractProtocolProxy {
 	protected <T> T doRefer(Class<T> serviceType, TpURL tpURL) throws RpcException {
 		final RmiProxyFactoryBean rmiProxyFactoryBean = new RmiProxyFactoryBean();
 		rmiProxyFactoryBean.setServiceUrl(tpURL.buildIdentityString());
-		rmiProxyFactoryBean.setServiceInterface(serviceType);
+		rmiProxyFactoryBean.setServiceInterface(serviceType.getInterfaces()[0]);
 		rmiProxyFactoryBean.setCacheStub(true);
 		rmiProxyFactoryBean.setLookupStubOnStartup(true);
 		rmiProxyFactoryBean.setRefreshStubOnConnectFailure(true);

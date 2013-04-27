@@ -67,9 +67,9 @@ public abstract class AbstractProtocolProxy extends AbstractProtocol {
 		}
 		// 若不存在则新生成
 		// 生成 invoker 对应 具有服务实际执行能力的实体类代理
-		T expertProxy = proxyFactory.getProxy(invoker);
+		T exportProxy = proxyFactory.getProxy(invoker);
 		// 发布Invoker 返回一个 取消发布的命令
-		final Runnable unexportCommand = doExport(expertProxy, invoker.getInterface(), invoker.getTpURL());
+		final Runnable unexportCommand = doExport(exportProxy, invoker.getInterface(), invoker.getTpURL());
 		exporter = new AbstractExporter<T>(invoker) {
 			public void unexport() {
 				super.unexport();
