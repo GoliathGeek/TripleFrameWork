@@ -15,7 +15,7 @@ public class MutiProvider<T> {
 		this.serverNum = serverNum;
 	}
 
-	public class ServerRunner<T> implements Callable<BasicProvider<T>> {
+	public class ServerRunner implements Callable<BasicProvider<T>> {
 		private int port;
 		private String protocolName;
 		private Class<T> serviceClass;
@@ -41,7 +41,7 @@ public class MutiProvider<T> {
 		executor = Executors.newFixedThreadPool(serverNum);
 		for (int i = 0; i < serverNum; i++) {
 			Future<BasicProvider<T>> future = executor
-					.submit(new ServerRunner<T>(protocolName, startPort, serviceClass));
+					.submit(new ServerRunner(protocolName, startPort, serviceClass));
 			futureList.add(future);
 			startPort++;
 		}
