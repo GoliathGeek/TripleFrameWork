@@ -1,6 +1,7 @@
 package org.triple.rpc.protocol.triple;
 
-import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.triple.common.TpURL;
 import org.triple.rpc.Exporter;
@@ -18,7 +19,7 @@ public class TripleProtocol extends AbstractProtocol {
 	public static String PROTOCOL_NAME = "triple";
 	public static int DEFAULT_PORT = 20890;
 	private boolean serverStarted;
-	private TripleServer tripleServer = new TripleServer(this);
+	private Map<Integer, TripleServer> serverContainer = new ConcurrentHashMap<Integer, TripleServer>();
 
 	/* (non-Javadoc)
 	 * @see org.triple.rpc.Protocol#getProtocolName()
@@ -45,21 +46,20 @@ public class TripleProtocol extends AbstractProtocol {
 		if (exporter != null) {
 			return exporter;
 		}
-
+		TpURL tpURL = invoker.getTpURL();
+		int port = tpURL.getPort();
+		if (port == 0) {
+			port = DEFAULT_PORT;
+		}
 		if (!serverStarted) {
-			try {
-				openServer();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (!serverContainer.containsKey(port)) {
+				serverContainer.put(port, new TripleServer(this, port));
+				serverContainer.get(port).start();
 			}
 		}
 		Exporter<T> tripleExporter = new TripleExporter<T>(invoker);
 		exporterMap.putIfAbsent(serviceKey, tripleExporter);
 		return tripleExporter;
-	}
-
-	private void openServer() throws IOException {
-		tripleServer.start();
 	}
 
 	@Override
@@ -68,7 +68,10 @@ public class TripleProtocol extends AbstractProtocol {
 	}
 
 	public void destroy() {
-		tripleServer.stopServer();
+		for (TripleServer tripleServer : serverContainer.values()) {
+			tripleServer.stopServer();
+		}
 		super.destroy();
 	}
+
 }

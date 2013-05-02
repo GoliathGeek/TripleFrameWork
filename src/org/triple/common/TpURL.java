@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.triple.common.util.StringUtils;
 
@@ -52,7 +53,7 @@ public class TpURL implements Serializable {
 	}
 
 	public String getPath() {
-		if(this.path==null){
+		if (this.path == null) {
 			path = this.buildPath();
 		}
 		return path;
@@ -60,14 +61,14 @@ public class TpURL implements Serializable {
 
 	private String buildPath() {
 		StringBuffer builder = new StringBuffer();
-		if(this.protocol!=null){
+		if (this.protocol != null) {
 			builder.append(this.protocol);
 		}
-		if(this.host!=null){
+		if (this.host != null) {
 			builder.append("://");
 			builder.append(this.host);
 		}
-		if(this.port>0){
+		if (this.port > 0) {
 			builder.append(":");
 			builder.append(this.port);
 		}
@@ -125,7 +126,29 @@ public class TpURL implements Serializable {
 	}
 
 	private String buildString() {
-		return null;
+		StringBuffer builder = new StringBuffer();
+		if (!StringUtils.isBlank(this.protocol)) {
+			builder.append(protocol);
+			builder.append("://");
+		}
+		if (!StringUtils.isBlank(this.host)) {
+			builder.append(this.host);
+			if (this.port > 0) {
+				builder.append(":");
+				builder.append(this.port);
+			}
+		}
+		if (params.size() > 0) {
+			builder.append("?");
+			for (Entry<String, String> entry : params.entrySet()) {
+				builder.append(entry.getKey());
+				builder.append("=");
+				builder.append(entry.getValue());
+				builder.append("&");
+			}
+			builder.deleteCharAt(builder.length() - 1);
+		}
+		return builder.toString();
 	}
 
 	private String buildIdentity() {
@@ -149,7 +172,7 @@ public class TpURL implements Serializable {
 				builder.append(this.port);
 			}
 		}
-		if(params.get("iface")!=null){
+		if (params.get("iface") != null) {
 			builder.append("/");
 			builder.append(params.get("iface"));
 		}

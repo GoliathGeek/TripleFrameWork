@@ -1,8 +1,5 @@
 package org.triple.test.rpc;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +13,7 @@ import org.triple.rpc.ProxyFactory;
 import org.triple.rpc.exception.RpcException;
 
 public class BasicProvider<T> {
-	
+
 	private TpURL tpURL;
 	private Protocol protocol;
 	private String protocolName;
@@ -33,7 +30,7 @@ public class BasicProvider<T> {
 	}
 
 	private void initProtocol(String protocolName) {
-		this.protocolName = protocolName;
+		this.setProtocolName(protocolName);
 		protocol = SPIExtension.getExtensionLoader(Protocol.class).getExtension(protocolName);
 	}
 
@@ -44,6 +41,8 @@ public class BasicProvider<T> {
 		tpURL.setPort(port);
 		this.tpURL = tpURL;
 	}
+
+	private Exporter<T> exporter;
 
 	public void exportService(Class<T> serviceClass) {
 
@@ -62,22 +61,21 @@ public class BasicProvider<T> {
 			e1.printStackTrace();
 		}
 		// 把这个Invoker 发布出去 得到一个Exporter
-		Exporter<T> exporter = protocol.export(invoker);
-		System.out.println("input 'stopServer' to stop provider service");
-		BufferedReader control = new BufferedReader(new InputStreamReader(System.in));
-		String command = null;
-		try {
-			while ((command = control.readLine()) != null) {
-				if (command.equals("stopServer")) {
-					exporter.unexport();
-					protocol.destroy();
-					break;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(this.protocolName + " Provider 将停止服务 ");
+		exporter = protocol.export(invoker);
+	}
+
+	public void unExportService() {
+		this.exporter.unexport();
+		this.protocol.destroy();
+		System.out.println(exporter.getInvoker().getTpURL().getProtocol() + " Provider 停止服务 ");
+	}
+
+	public String getProtocolName() {
+		return protocolName;
+	}
+
+	public void setProtocolName(String protocolName) {
+		this.protocolName = protocolName;
 	}
 
 }

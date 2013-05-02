@@ -10,11 +10,11 @@ import org.triple.common.Constants;
  * @author Cxl
  * @createTime 2013-4-24 
  */
-public class DemoClient {
+public class BasicDemoClient {
 
 	public static void main(String[] args) {
-		String protocolName = "rmi";
-		// String protocolName = "triple";
+		//String protocolName = "rmi";
+		String protocolName = "triple";
 		DemoService remoteService = new BasicConsumer<DemoService>(protocolName, Constants.LOCALHOST)
 				.getService(DemoService.class);
 

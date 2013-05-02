@@ -99,4 +99,5 @@ public class RmiProtocol extends AbstractProtocolProxy {
 		return super.getErrorCode(e);
 	}
 
+
 }

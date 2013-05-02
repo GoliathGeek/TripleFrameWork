@@ -12,6 +12,12 @@ import org.triple.rpc.exception.RpcException;
 @SPI("triple")
 public interface Protocol {
 
+	/**
+	 * 获取协议名
+	 * @return
+	 * @author Cxl
+	 * @createTime 2013-5-2
+	 */
 	public String getProtocolName();
 	
 	/**

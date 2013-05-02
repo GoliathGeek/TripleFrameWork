@@ -14,18 +14,20 @@ public class TripleServer extends Thread {
 	private ServerSocket serverSocket;
 	private volatile boolean runflag = true;
 	private TripleProtocol tripleProtocol;
+	private int port;
 
-	public TripleServer(TripleProtocol tripleProtocol) {
+	public TripleServer(TripleProtocol tripleProtocol, int port) {
 		this.tripleProtocol = tripleProtocol;
+		this.port = port;
 	}
 
 	public void run() {
 		try {
-			serverSocket = new ServerSocket(tripleProtocol.getDefaultPort());
+			serverSocket = new ServerSocket(port);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println("服务启动了");
+		System.out.println("server started at port:" + port);
 		while (runflag) {
 			Socket socket = null;
 			try {
@@ -53,6 +55,7 @@ public class TripleServer extends Thread {
 	}
 
 	private Result doInvoke(Invocation invocation) {
+		// System.out.println(invocation.getInvoker().getInterface());
 		Class<?> type = invocation.getType();
 		/*Object[] params = invocation.getArguments();
 		Class<?>[] paramTypeArr = new Class<?>[params.length];
@@ -64,7 +67,7 @@ public class TripleServer extends Thread {
 	}
 
 	public void stopServer() {
-		System.out.println("服务即将关闭");
+		System.out.println("TripleServer will close after last call");
 		this.runflag = false;
 	}
 }

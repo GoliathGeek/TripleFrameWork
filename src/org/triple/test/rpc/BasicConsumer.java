@@ -24,7 +24,7 @@ public class BasicConsumer<T> {
 		this.initTpURL(host, this.protocol.getDefaultPort());
 	}
 
-	public BasicConsumer(String prototolName, String host, int port) {
+	public BasicConsumer(String protocolName, String host, int port) {
 		this.initProtocol(protocolName);
 		this.initTpURL(host, port);
 	}
@@ -35,7 +35,6 @@ public class BasicConsumer<T> {
 	}
 
 	private void initTpURL(String host, int port) {
-		protocol = SPIExtension.getExtensionLoader(Protocol.class).getExtension(protocolName);
 		TpURL tpURL = new TpURL();
 		tpURL.setProtocol(protocolName);
 		tpURL.setHost(host);

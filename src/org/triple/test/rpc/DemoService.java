@@ -21,6 +21,7 @@ public class DemoService implements IDemoService {
 	}
 
 	public String getWords(String key) {
+		System.out.println("key:"+key+"----content:"+wordsMap.get(key));
 		return wordsMap.get(key);
 	}
 }
