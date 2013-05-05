@@ -19,4 +19,10 @@ public class Constants {
 	public static final String UNION_CHAR = "_";
 
 	public static final String LOCALHOST = "127.0.0.1";
+
+	public static final int DEFAULT_WEIGHT = 100;
+
+	public static String LOADBALANCE = "loadbalance";
+
+	public static String RETRY_TIME = "retrytime";
 }

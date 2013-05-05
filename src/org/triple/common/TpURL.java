@@ -26,7 +26,74 @@ public class TpURL implements Serializable {
 	public TpURL() {
 	}
 
-	public TpURL(String path) {
+	public static TpURL createTpURL(String urlStr) {
+		if (urlStr == null || (urlStr = urlStr.trim()).length() == 0) {
+			throw new IllegalArgumentException("url == null");
+		}
+		String protocol = null;
+		String username = null;
+		String password = null;
+		String host = null;
+		int port = 0;
+		String path = null;
+		Map<String, String> parameters = null;
+		int i = urlStr.indexOf("?"); // seperator between body and parameters
+		if (i >= 0) {
+			String[] parts = urlStr.substring(i + 1).split("\\&");
+			parameters = new HashMap<String, String>();
+			for (String part : parts) {
+				part = part.trim();
+				if (part.length() > 0) {
+					int j = part.indexOf('=');
+					if (j >= 0) {
+						parameters.put(part.substring(0, j), part.substring(j + 1));
+					} else {
+						parameters.put(part, part);
+					}
+				}
+			}
+			urlStr = urlStr.substring(0, i);
+		}
+		i = urlStr.indexOf("://");
+		if (i >= 0) {
+			if (i == 0)
+				throw new IllegalStateException("url missing protocol: \"" + urlStr + "\"");
+			protocol = urlStr.substring(0, i);
+			urlStr = urlStr.substring(i + 3);
+		} else {
+			// case: file:/path/to/file.txt
+			i = urlStr.indexOf(":/");
+			if (i >= 0) {
+				if (i == 0)
+					throw new IllegalStateException("url missing protocol: \"" + urlStr + "\"");
+				protocol = urlStr.substring(0, i);
+				urlStr = urlStr.substring(i + 1);
+			}
+		}
+
+		i = urlStr.indexOf("/");
+		if (i >= 0) {
+			path = urlStr.substring(i + 1);
+			urlStr = urlStr.substring(0, i);
+		}
+		i = urlStr.indexOf("@");
+		if (i >= 0) {
+			username = urlStr.substring(0, i);
+			int j = username.indexOf(":");
+			if (j >= 0) {
+				password = username.substring(j + 1);
+				username = username.substring(0, j);
+			}
+			urlStr = urlStr.substring(i + 1);
+		}
+		i = urlStr.indexOf(":");
+		if (i >= 0 && i < urlStr.length() - 1) {
+			port = Integer.parseInt(urlStr.substring(i + 1));
+			urlStr = urlStr.substring(0, i);
+		}
+		if (urlStr.length() > 0)
+			host = urlStr;
+		return new TpURL(protocol, username, password, host, port, path, parameters);
 	}
 
 	public TpURL(String protocol, String username, String password, String host, int port, String path,
@@ -49,7 +116,7 @@ public class TpURL implements Serializable {
 		} else {
 			params = new HashMap<String, String>(params);
 		}
-		this.params = Collections.unmodifiableMap(params);
+		this.params = params;
 	}
 
 	public String getPath() {
@@ -92,7 +159,13 @@ public class TpURL implements Serializable {
 	}
 
 	public void setParams(Map<String, String> params) {
-		this.params = params;
+		if (this.params == null) {
+			this.params = params;
+		} else {
+			for(Entry<String,String> entry : params.entrySet()){
+				addParam(entry.getKey(),entry.getValue());
+			}
+		}
 	}
 
 	public void addParam(String key, String value) {

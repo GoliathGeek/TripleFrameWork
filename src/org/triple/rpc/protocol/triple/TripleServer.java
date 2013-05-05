@@ -36,6 +36,7 @@ public class TripleServer extends Thread {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				Invocation invocation = (Invocation) ois.readObject();
 				if (invocation != null) {
+					System.out.println("port:"+this.port+" get a call" );
 					oos.writeObject(doInvoke(invocation));
 				}
 			} catch (IOException e) {

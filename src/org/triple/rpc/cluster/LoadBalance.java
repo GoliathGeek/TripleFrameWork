@@ -3,6 +3,7 @@ package org.triple.rpc.cluster;
 import java.util.List;
 
 import org.triple.common.TpURL;
+import org.triple.common.extension.SPI;
 import org.triple.rpc.Invocation;
 import org.triple.rpc.Invoker;
 import org.triple.rpc.exception.RpcException;
@@ -14,6 +15,7 @@ import org.triple.rpc.exception.RpcException;
  * @author Cxl
  * @createTime 2013-4-2 
  */
+@SPI("random")
 public interface LoadBalance {
 
 	<T> Invoker<T> select(List<Invoker<T>> invokers, TpURL tpURL, Invocation invocation) throws RpcException;
