@@ -10,6 +10,7 @@ import org.triple.rpc.Protocol;
 public class MutiDemoServer {
 
 	public static void main(String[] args) {
+		// String protocolName = "rmi";
 		String protocolName = "triple";
 		int defaultPort = SPIExtension.getExtensionLoader(Protocol.class).getExtension(protocolName).getDefaultPort();
 		int serverNum = 4;
